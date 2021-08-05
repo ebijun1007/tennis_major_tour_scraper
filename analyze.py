@@ -45,15 +45,15 @@ x = pd.get_dummies(df[[
 ]])  # 説明変数
 y = df['winner']  # 目的変数
 
-X_train, X_test, y_train, y_test = train_test_split(
-    x, y, train_size=0.8, random_state=0)
+# X_train, X_test, y_train, y_test = train_test_split(
+#     x, y, train_size=0.8, random_state=0)
 
 # 定数項(y切片)を必要とする線形回帰のモデル式ならば必須
-X = sm.add_constant(X_train)
+X = sm.add_constant(x)
 
 # 最小二乗法でモデル化
 model = sm.OLS(y, X.astype(float))
 result = model.fit()
 
 # 重回帰分析の結果を表示する
-result.summary()
+print(result.summary())
