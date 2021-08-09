@@ -3,7 +3,6 @@ import statsmodels.api as sm
 from sklearn.model_selection import train_test_split
 import numpy as np
 
-
 df = pd.read_csv('merged.csv')
 df = df.dropna()
 
@@ -45,15 +44,29 @@ x = pd.get_dummies(df[[
 ]])  # 説明変数
 y = df['winner']  # 目的変数
 
-# X_train, X_test, y_train, y_test = train_test_split(
-#     x, y, train_size=0.8, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(
+    x, y, train_size=0.7, random_state=0)
 
 # 定数項(y切片)を必要とする線形回帰のモデル式ならば必須
 X = sm.add_constant(x)
 
 # 最小二乗法でモデル化
-model = sm.OLS(y, X.astype(float))
+model = sm.OLS(y_train, X_train.astype(float))
 result = model.fit()
+result.save('learned_model.pkl')
+# new_results = sm.load('learned_model.pkl')
 
-# 重回帰分析の結果を表示する
-print(result.summary())
+# # 重回帰分析の結果を表示する
+# print(result.summary())
+
+# predictions = result.predict(X_test).array
+# good = 0
+# bad = 0
+# for i in range(len(predictions)):
+#     if(predictions[i] >= 1.2 and predictions[i] <= 1.8):
+#         continue
+#     if(round(predictions[i]) == round(y_test.array[i])):
+#         good += 1
+#     else:
+#         bad += 1
+# print(f'good: {good}. bad: {bad}. win_rate: {good / (good + bad)}')

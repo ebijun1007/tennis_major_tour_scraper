@@ -22,6 +22,10 @@ jobs:
           pip install -r requirements.txt
       - name: Run a one-line script
         run: scrapy crawl results
+      - name: Join CSV
+        run: python join_csv.py
+      - name: Update OLS Model
+        run: python analyze.py
       - name: git setting
         run: |
           git config --local user.email ${{ secrets.EMAIL }}
