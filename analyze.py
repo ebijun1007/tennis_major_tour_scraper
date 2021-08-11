@@ -42,6 +42,18 @@ x = pd.get_dummies(df[[
     'player2_H2H',
     'player2_elo'
 ]])  # 説明変数
+
+x = x.drop([
+    'player1_career_total_win',
+    'player1_career_total_lose',
+    'player1_career_surface_win',
+    'player1_career_surface_lose',
+    'player2_career_total_win',
+    'player2_career_total_lose',
+    'player2_career_surface_win',
+    'player2_career_surface_lose',
+], axis=1)
+
 y = df['winner']  # 目的変数
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -62,11 +74,20 @@ result.save('learned_model.pkl')
 # predictions = result.predict(X_test).array
 # good = 0
 # bad = 0
+# balance = 0
+# print("*******************************************")
 # for i in range(len(predictions)):
-#     if(predictions[i] >= 1.2 and predictions[i] <= 1.8):
-#         continue
+#     # if(predictions[i] >= 1.2 and predictions[i] <= 1.8):
+#     #     continue
 #     if(round(predictions[i]) == round(y_test.array[i])):
 #         good += 1
+#         balance += X_test.iloc[i][f'player{round(y_test.array[i])}_odds']
+#         print(X_test.iloc[i][f'player{round(y_test.array[i])}_odds'])
 #     else:
 #         bad += 1
+#         balance -= 1
+#         print("-1")
+
+# print("*******************************************")
 # print(f'good: {good}. bad: {bad}. win_rate: {good / (good + bad)}')
+# print(f'virtual balance: {balance}')
