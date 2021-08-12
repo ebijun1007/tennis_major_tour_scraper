@@ -96,7 +96,7 @@ class MatchesExplorer(scrapy.Spider):
         data.update(player2_data)
         predict = self.predict(data)
         base = {
-            "match_id": str(response.url).split("id=")[1][:-1],
+            "match_id": str(response.url).split("id=")[1],
             "title": title,
             "predict": predict,
         }
