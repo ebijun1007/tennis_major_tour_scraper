@@ -1,8 +1,8 @@
-name: Scheduler
+name: GetNext24HrsMatches
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0/30 * * * *"
 
 jobs:
   build:
@@ -21,11 +21,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Run a one-line script
-        run: scrapy crawl results
-      - name: Join CSV
-        run: python join_csv.py
-      - name: Update OLS Model
-        run: python analyze.py
+        run: scrapy crawl matches
       - name: git setting
         run: |
           git config --local user.email ${{ secrets.EMAIL }}
@@ -33,6 +29,6 @@ jobs:
       - name: Commit files
         run: |
           git add .
-          git commit -m "Add Result CSV" -a
+          git commit -m "Update Match Schedules" -a
           git pull
           git push origin main

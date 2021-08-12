@@ -43,21 +43,23 @@ x = pd.get_dummies(df[[
     'player2_elo'
 ]])  # 説明変数
 
-x = x.drop([
-    'player1_career_total_win',
-    'player1_career_total_lose',
-    'player1_career_surface_win',
-    'player1_career_surface_lose',
-    'player2_career_total_win',
-    'player2_career_total_lose',
-    'player2_career_surface_win',
-    'player2_career_surface_lose',
-], axis=1)
+# x = x.drop([
+#     'player1_career_total_win',
+#     'player1_career_total_lose',
+#     'player1_career_surface_win',
+#     'player1_career_surface_lose',
+#     'player2_career_total_win',
+#     'player2_career_total_lose',
+#     'player2_career_surface_win',
+#     'player2_career_surface_lose',
+#     'player1_elo',
+#     'player2_elo',
+# ], axis=1)
 
 y = df['winner']  # 目的変数
 
 X_train, X_test, y_train, y_test = train_test_split(
-    x, y, train_size=0.7, random_state=0)
+    x, y, train_size=0.6, random_state=0)
 
 # 定数項(y切片)を必要とする線形回帰のモデル式ならば必須
 X = sm.add_constant(x)
@@ -71,23 +73,25 @@ result.save('learned_model.pkl')
 # # 重回帰分析の結果を表示する
 # print(result.summary())
 
-# predictions = result.predict(X_test).array
-# good = 0
-# bad = 0
-# balance = 0
-# print("*******************************************")
-# for i in range(len(predictions)):
-#     # if(predictions[i] >= 1.2 and predictions[i] <= 1.8):
-#     #     continue
-#     if(round(predictions[i]) == round(y_test.array[i])):
-#         good += 1
-#         balance += X_test.iloc[i][f'player{round(y_test.array[i])}_odds']
-#         print(X_test.iloc[i][f'player{round(y_test.array[i])}_odds'])
-#     else:
-#         bad += 1
-#         balance -= 1
-#         print("-1")
+predictions = result.predict(X_test).array
+good = 0
+bad = 0
+balance = 0
+print("*******************************************")
+for i in range(len(predictions)):
+    balance -= 1
+    # if(predictions[i] >= 1.2 and predictions[i] <= 1.8):
+    #     continue
+    if(round(predictions[i]) == round(y_test.array[i])):
+        good += 1
+        balance += X_test.iloc[i][f'player{round(y_test.array[i])}_odds']
+        print(f"odds: {X_test.iloc[i][f'player{round(y_test.array[i])}_odds']}.    balance: {round(balance, 2)}")
+    else:
+        bad += 1
+        print(f"odds: -1.   balance: {round(balance, 2)}")
 
-# print("*******************************************")
-# print(f'good: {good}. bad: {bad}. win_rate: {good / (good + bad)}')
-# print(f'virtual balance: {balance}')
+print("*******************************************")
+print(f'good: {good}. bad: {bad}. win_rate: {good / (good + bad)}')
+print(f'virtual balance: {round(balance, 2)}')
+print(f'earnings per match: {round(balance, 2) / (good + bad)}')
+
