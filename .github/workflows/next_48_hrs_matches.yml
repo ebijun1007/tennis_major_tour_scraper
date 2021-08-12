@@ -2,7 +2,8 @@ name: GetNext24HrsMatches
 
 on:
   schedule:
-    - cron: "0/30 * * * *"
+    - cron: "0 0/1 * * *"
+    - cron: "0 15 * * *"
 
 jobs:
   build:
