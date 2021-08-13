@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 
 df = pd.read_csv('merged.csv')
+df = df.drop(columns=['predict', 'prediction_roi'])
 df = df.dropna()
 
 x = pd.get_dummies(df[[
@@ -56,21 +57,23 @@ predictions = result.predict(X_test).array
 good = 0
 bad = 0
 balance = 0
-print("*******************************************")
+print("=======================================================================================")
 for i in range(len(predictions)):
     balance -= 1
     # if(predictions[i] >= 1.2 and predictions[i] <= 1.8):
     #     continue
-    if(round(predictions[i]) == round(y_test.array[i])):
+    if(round(predictions[i]) == int(y_test.array[i])):
         good += 1
-        balance += X_test.iloc[i][f'player{round(y_test.array[i])}_odds']
+        balance += X_test.iloc[i][f'player{int(y_test.array[i])}_odds']
         print(
-            f"odds: {X_test.iloc[i][f'player{round(y_test.array[i])}_odds']}.    balance: {round(balance, 2)}")
+            f"odds: {X_test.iloc[i][f'player{int(y_test.array[i])}_odds']}.    balance: {round(balance, 2)}")
     else:
         bad += 1
         print(f"odds: -1.   balance: {round(balance, 2)}")
 
-print("*******************************************")
+print("=======================================================================================")
 print(f'good: {good}. bad: {bad}. win_rate: {good / (good + bad)}')
 print(f'virtual balance: {round(balance, 2)}')
 print(f'earnings per match: {round(balance, 2) / (good + bad)}')
+print("=======================================================================================")
+print(result.summary())
