@@ -16,10 +16,6 @@ x = pd.get_dummies(df[[
     'player1_year_total_lose',
     'player1_year_surface_win',
     'player1_year_surface_lose',
-    'player1_career_total_win',
-    'player1_career_total_lose',
-    'player1_career_surface_win',
-    'player1_career_surface_lose',
     'player1_roi',
     'player1_odds',
     'player1_H2H',
@@ -33,26 +29,11 @@ x = pd.get_dummies(df[[
     'player2_year_total_lose',
     'player2_year_surface_win',
     'player2_year_surface_lose',
-    'player2_career_total_win',
-    'player2_career_total_lose',
-    'player2_career_surface_win',
-    'player2_career_surface_lose',
     'player2_roi',
     'player2_odds',
     'player2_H2H',
     'player2_elo'
 ]])  # 説明変数
-
-x = x.drop([
-    'player1_career_total_win',
-    'player1_career_total_lose',
-    'player1_career_surface_win',
-    'player1_career_surface_lose',
-    'player2_career_total_win',
-    'player2_career_total_lose',
-    'player2_career_surface_win',
-    'player2_career_surface_lose',
-], axis=1)
 
 y = df['winner']  # 目的変数
 

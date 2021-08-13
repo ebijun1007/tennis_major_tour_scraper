@@ -10,6 +10,7 @@ import statsmodels.api as sm
 import wget
 import csv
 import os
+import json
 
 
 class MatchesExplorer(scrapy.Spider):
@@ -29,12 +30,13 @@ class MatchesExplorer(scrapy.Spider):
 
     LEARNED_MODEL = "learned_model.pkl"
     NEXT_24_HOURS_MATCHES = "./data/next_48_hours_match.csv"
-    if os.path.exists(LEARNED_MODEL):
-        os.remove(LEARNED_MODEL)
-    if os.path.exists(NEXT_24_HOURS_MATCHES):
-        os.remove(NEXT_24_HOURS_MATCHES)
+    os.remove(NEXT_24_HOURS_MATCHES) if os.path.exists(
+        NEXT_24_HOURS_MATCHES) else None
+    MATCH_PREDICTION_JSON = './data/answer_check.json'
+    os.remove(LEARNED_MODEL) if os.path.exists(LEARNED_MODEL) else None
     prediction_model = sm.load(wget.download(
-        "https://github.com/ebijun1007/tennis_major_tour_scraper/raw/main/learned_model.pkl"))
+        "https://github.com/ebijun1007/tennis_major_tour_scraper/raw/main/learned_model.pkl"))  # load from github
+    # prediction_model = sm.load("learned_model.pkl")  # load from local
 
     def start_requests(self):
         yield scrapy.Request(url=self.HOME_PAGE, callback=self.parse_main_tournaments, meta={"dont_cache": True})
@@ -103,13 +105,21 @@ class MatchesExplorer(scrapy.Spider):
             "predict": predict,
         }
         base.update(data)
-        print(base)
 
         with open(self.NEXT_24_HOURS_MATCHES, 'a', newline='') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=base.keys())
             if csvfile.tell() == 0:
                 writer.writeheader()
             writer.writerow(base)
+
+        with open(self.MATCH_PREDICTION_JSON, 'r+') as f:
+            data = json.load(f)
+            if predict > 0:
+                data.update(
+                    {base["match_id"]: base[f"player{round(predict)}_name"]})
+            f.seek(0)  # rewind
+            json.dump(data, f)
+            f.truncate()
 
     # get elo rating from github and return them as pandas dataframe
     def get_elo_ranking(self):

@@ -9,6 +9,7 @@ import io
 import re
 import csv
 import random
+import json
 
 
 class ResultsExplorer(scrapy.Spider):
@@ -22,6 +23,7 @@ class ResultsExplorer(scrapy.Spider):
     now = datetime.now(jst) - timedelta(days=1)
     save_image_path = "./tennis_explorer/images/"
     search_results_conditions = f"&year={now.year}&month={now.month:02}&day={now.day:02}"
+    MATCH_PREDICTION_JSON = './data/answer_check.json'
 
     def start_requests(self):
         yield scrapy.Request(url=self.home_page, callback=self.parse_main_tournaments)
@@ -63,7 +65,7 @@ class ResultsExplorer(scrapy.Spider):
     # get match details
     def parse_detail(self, response):
         player_profile_urls = response.css('th.plName a::attr(href)').getall()
-        match_id = response.url.split('id=')[-1]
+        match_id = response.url.split('id=')[1]
         title = f'{response.css("#center > div:nth-child(2) > a ::text").get()}{response.xpath("/html/body/div[1]/div[1]/div/div[3]/div[3]/div[1]/text()[2]").get()}'
         round = title.split(',')[1].lstrip()
         surface = title.split(',')[2].lstrip()
@@ -82,6 +84,19 @@ class ResultsExplorer(scrapy.Spider):
         player2["H2H"] = H2H[1]
         player2["elo"] = self.get_surface_elo(player2["name"], surface)
 
+        roi = None
+        with open(self.MATCH_PREDICTION_JSON, 'r+') as f:
+            data = json.load(f)
+            winner_name = data.pop(match_id, None)
+            if(winner_name):
+                f.seek(0)  # rewind
+                json.dump(data, f)
+                f.truncate()
+                if(winner_name == player1["name"]):
+                    roi = round(float(player1["odds"]) - 1)
+                else:
+                    roi = -1
+
         # shuffle winner
         winner, player1, player2 = self.shuffle_winner(player1, player2)
 
@@ -98,6 +113,7 @@ class ResultsExplorer(scrapy.Spider):
             "surface": surface,
             "round": round,
             "winner": winner,
+            "prediction_roi": roi
         }
         match.update(player1)
         match.update(player2)
