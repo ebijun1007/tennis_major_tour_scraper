@@ -11,12 +11,13 @@ import wget
 import csv
 import os
 
+
 class MatchesExplorer(scrapy.Spider):
     name = "matches"
     HOME_PAGE = "https://www.tennisexplorer.com/"
     jst = timezone(timedelta(hours=9), 'JST')
     now = datetime.now(jst)
-    tomorrow = now + timedelta(days = 1) 
+    tomorrow = now + timedelta(days=1)
     next_day_search_condition = f"&year={tomorrow.year}&month={tomorrow.month:02}&day={tomorrow.day:02}"
     TODAYS_MATCH = [
         "https://www.tennisexplorer.com/matches/?type=atp-single&timezone=+9",
@@ -32,7 +33,8 @@ class MatchesExplorer(scrapy.Spider):
         os.remove(LEARNED_MODEL)
     if os.path.exists(NEXT_24_HOURS_MATCHES):
         os.remove(NEXT_24_HOURS_MATCHES)
-    prediction_model = sm.load(wget.download("https://github.com/ebijun1007/tennis_major_tour_scraper/raw/main/learned_model.pkl"))
+    prediction_model = sm.load(wget.download(
+        "https://github.com/ebijun1007/tennis_major_tour_scraper/raw/main/learned_model.pkl"))
 
     def start_requests(self):
         yield scrapy.Request(url=self.HOME_PAGE, callback=self.parse_main_tournaments, meta={"dont_cache": True})
@@ -259,9 +261,11 @@ class MatchesExplorer(scrapy.Spider):
         ]]  # 説明変数
 
         try:
-            return round(self.prediction_model.predict(x.astype(float)).array[0],2)
-        except:
+            return round(self.prediction_model.predict(x.astype(float)).array[0], 2)
+        except Exception as e:
+            print(e)
             return 0
+
 
 def get_integer(string):
     return re.findall(r'\d+', string)
