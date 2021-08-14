@@ -49,15 +49,18 @@ class MatchesExplorer(scrapy.Spider):
             response.css('div#idxActTour div.half-r'))
         self.main_competitions = list(dict.fromkeys(
             atp_competitions + wta_competitions))
+        print(self.main_competitions)
         for url in self.TODAYS_MATCH:
             yield scrapy.Request(url=url, callback=self.parse_todays_match, meta={"dont_cache": True})
 
     # get only main tournaments from list. exclude lower level tournaments
     def get_main_tournaments(self, table):
-        lower_level_tournaments_index = table.css(
-            'td::text').getall().index('Lower level tournaments')
-        list(filter(lambda name: name != '\xa0', table.css('td a::text').getall()))
-        return list(filter(lambda name: name != '\xa0', table.css('td a::text').getall()))[0:lower_level_tournaments_index-1]
+        x = table.css('td::text').getall()
+        lower_level_tournaments_index = list(
+            filter(('\xa0').__ne__, x)).index('Lower level tournaments')
+        match_list = list(filter(lambda name: name not in ['\xa0'], table.css(
+            'td a::text').getall()))[0:lower_level_tournaments_index-1]
+        return list(filter(lambda name: name not in ['Davis Cup'], match_list))
 
     def parse_todays_match(self, response):
         for tr in response.css('table.result tr'):
