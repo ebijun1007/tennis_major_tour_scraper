@@ -4,7 +4,14 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 
 df = pd.read_csv('merged.csv')
-df = df.drop(columns=['predict', 'prediction_roi'])
+try:
+    df = df.drop(columns=['prediction_roi'])
+except:
+    pass
+try:
+    df = df.drop(columns=['predict'])
+except:
+    pass
 df = df.dropna()
 
 x = pd.get_dummies(df[[

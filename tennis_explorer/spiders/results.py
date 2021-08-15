@@ -20,7 +20,7 @@ class ResultsExplorer(scrapy.Spider):
         "wta": "https://www.tennisexplorer.com/results/?type=wta-single"
     }
     jst = timezone(timedelta(hours=9), 'JST')
-    now = datetime.now(jst) - timedelta(days=1)
+    now = datetime.now(jst) - timedelta(days=2)
     save_image_path = "./tennis_explorer/images/"
     search_results_conditions = f"&year={now.year}&month={now.month:02}&day={now.day:02}"
     MATCH_PREDICTION_JSON = './data/answer_check.json'
