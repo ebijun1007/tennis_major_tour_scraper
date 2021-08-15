@@ -49,7 +49,6 @@ class MatchesExplorer(scrapy.Spider):
             response.css('div#idxActTour div.half-r'))
         self.main_competitions = list(dict.fromkeys(
             atp_competitions + wta_competitions))
-        print(self.main_competitions)
         for url in self.TODAYS_MATCH:
             yield scrapy.Request(url=url, callback=self.parse_todays_match, meta={"dont_cache": True})
 

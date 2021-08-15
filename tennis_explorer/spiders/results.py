@@ -67,7 +67,7 @@ class ResultsExplorer(scrapy.Spider):
         player_profile_urls = response.css('th.plName a::attr(href)').getall()
         match_id = response.url.split('id=')[1]
         title = f'{response.css("#center > div:nth-child(2) > a ::text").get()}{response.xpath("/html/body/div[1]/div[1]/div/div[3]/div[3]/div[1]/text()[2]").get()}'
-        round = title.split(',')[1].lstrip()
+        game_round = title.split(',')[1].lstrip()
         surface = title.split(',')[2].lstrip()
         title = title.split(',')[0].lstrip()
         H2H = get_integer(response.xpath(
@@ -93,7 +93,7 @@ class ResultsExplorer(scrapy.Spider):
                 json.dump(data, f)
                 f.truncate()
                 if(winner_name == player1["name"]):
-                    roi = round(float(player1["odds"]) - 1)
+                    roi = round(float(player1["odds"]) - 1, 2)
                 else:
                     roi = -1
 
@@ -111,7 +111,7 @@ class ResultsExplorer(scrapy.Spider):
             "tour": response.meta["tour"],
             "title": title,
             "surface": surface,
-            "round": round,
+            "round": game_round,
             "winner": winner,
             "prediction_roi": roi
         }
