@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 
 df = pd.read_csv('merged.csv')
+roi = df["prediction_roi"].sum()
 try:
     df = df.drop(columns=['prediction_roi'])
 except:
@@ -82,5 +83,6 @@ print("=========================================================================
 print(f'good: {good}. bad: {bad}. win_rate: {good / (good + bad)}')
 print(f'virtual balance: {round(balance, 2)}')
 print(f'earnings per match: {round(balance, 2) / (good + bad)}')
+print(f'answer check roi: {round(roi, 2)}')
 print("=======================================================================================")
 print(result.summary())
