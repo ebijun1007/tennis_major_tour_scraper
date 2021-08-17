@@ -78,6 +78,8 @@ class MatchesExplorer(scrapy.Spider):
     def parse_detail(self, response):
         player_profile_urls = response.css('th.plName a::attr(href)').getall()
         title = f'{response.css("#center > div:nth-child(2) > a ::text").get()}{response.xpath("/html/body/div[1]/div[1]/div/div[3]/div[3]/div[1]/text()[2]").get()}'
+        time_stamp = self.parse_timestamp(response.xpath(
+            '//*[@id="center"]/div[1]/span/text()').get(), response.xpath('//*[@id="center"]/div[1]/text()[1]').get())
         surface = title.split(',')[2].lstrip()
         H2H = response.xpath('//*[@id="center"]/h2[1]').get()
         odds = self.get_odds(response.css('div#oddsMenu-1-data table'))
@@ -103,6 +105,7 @@ class MatchesExplorer(scrapy.Spider):
         predict = self.predict(data)
         base = {
             "match_id": str(response.url).split("id=")[1],
+            "time_stamp": time_stamp,
             "title": title,
             "predict": predict,
         }
@@ -122,6 +125,16 @@ class MatchesExplorer(scrapy.Spider):
             f.seek(0)  # rewind
             json.dump(data, f)
             f.truncate()
+
+    def parse_timestamp(self, date_string, time_string):
+        time = time_string
+        if date_string == "Today":
+            date = f'{self.now.year:02}-{self.now.month:02}-{self.now.day:02}'
+        else:
+            date = get_integer(date_string)
+            date = f'{date[2]:02}-{date[1]:02}-{date[0]:02}'
+
+        return f'{date}-{"-".join(get_integer(time))}'
 
     # get elo rating from github and return them as pandas dataframe
     def get_elo_ranking(self):
