@@ -5,14 +5,8 @@ import numpy as np
 
 df = pd.read_csv('merged.csv')
 roi = df["prediction_roi"].sum()
-try:
-    df = df.drop(columns=['prediction_roi'])
-except:
-    pass
-try:
-    df = df.drop(columns=['predict'])
-except:
-    pass
+df = df.drop(columns=['prediction_roi', 'predict',
+             'time_stamp', 'predict', 'prediction_roi'])
 df = df.dropna()
 
 x = pd.get_dummies(df[[
