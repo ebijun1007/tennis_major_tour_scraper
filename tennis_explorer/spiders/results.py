@@ -9,7 +9,7 @@ import io
 import re
 import csv
 import random
-import json
+import statsmodels.api as sm
 
 
 class ResultsExplorer(scrapy.Spider):
@@ -24,6 +24,7 @@ class ResultsExplorer(scrapy.Spider):
     save_image_path = "./tennis_explorer/images/"
     search_results_conditions = f"&year={now.year}&month={now.month:02}&day={now.day:02}"
     MATCH_PREDICTION_JSON = './data/answer_check.json'
+    prediction_model = sm.load("learned_model.pkl")  # load from local
 
     def start_requests(self):
         yield scrapy.Request(url=self.home_page, callback=self.parse_main_tournaments)
@@ -84,19 +85,6 @@ class ResultsExplorer(scrapy.Spider):
         player2["H2H"] = H2H[1]
         player2["elo"] = self.get_surface_elo(player2["name"], surface)
 
-        roi = None
-        with open(self.MATCH_PREDICTION_JSON, 'r+') as f:
-            data = json.load(f)
-            winner_name = data.pop(match_id, None)
-            if(winner_name):
-                f.seek(0)  # rewind
-                json.dump(data, f)
-                f.truncate()
-                if(winner_name == player1["name"]):
-                    roi = round(float(player1["odds"]) - 1, 2)
-                else:
-                    roi = -1
-
         # shuffle winner
         winner, player1, player2 = self.shuffle_winner(player1, player2)
 
@@ -105,6 +93,16 @@ class ResultsExplorer(scrapy.Spider):
                    for (key, value) in player1.items()}
         player2 = {f'player2_{key}': value
                    for (key, value) in player2.items()}
+
+        data = {}
+        data.update(player1)
+        data.update(player2)
+        predict = round(self.predict(data))
+        roi = None
+        if predict >= 2:
+            roi = -1
+        elif predict >= 1:
+            roi = round((float(odds[0]) - 1), 2)
 
         match = {
             "match_id": match_id,
@@ -244,6 +242,27 @@ class ResultsExplorer(scrapy.Spider):
             else:
                 balance -= 1
         return round(balance, 2)
+
+    def predict(self, data):
+        df = pd.DataFrame.from_dict(data, orient='index').T
+        df = df.dropna()
+
+        x = df[[
+            'player1_age',
+            'player1_year_surface_win',
+            'player1_year_surface_lose',
+            'player1_H2H',
+            'player2_age',
+            'player2_year_surface_win',
+            'player2_year_surface_lose',
+            'player2_H2H',
+        ]]  # 説明変数
+
+        try:
+            return round(self.prediction_model.predict(x.astype(float)).array[0], 2)
+        except Exception as e:
+            print(e)
+            return 0
 
 
 def save_image(filename, image_url):
