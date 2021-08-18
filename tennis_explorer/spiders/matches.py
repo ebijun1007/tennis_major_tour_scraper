@@ -132,7 +132,7 @@ class MatchesExplorer(scrapy.Spider):
             date = f'{self.now.year:02}-{self.now.month:02}-{self.now.day:02}'
         else:
             date = get_integer(date_string)
-            date = f'{date[2]:02}-{date[1]:02}-{date[0]:02}'
+            date = f'{date[2]}-{date[1]}-{date[0]}'
 
         return f'{date}-{"-".join(get_integer(time))}'
 
