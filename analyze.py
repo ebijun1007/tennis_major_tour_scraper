@@ -2,6 +2,7 @@ import pandas as pd
 import statsmodels.api as sm
 from sklearn.model_selection import train_test_split
 import numpy as np
+from datetime import datetime, timedelta, timezone
 
 df = pd.read_csv('merged.csv')
 roi = df["prediction_roi"].sum()
@@ -51,6 +52,18 @@ result.save('learned_model.pkl')
 # # 重回帰分析の結果を表示する
 # print(result.summary())
 
+jst = timezone(timedelta(hours=9), 'JST')
+yesterday = datetime.now(jst) - timedelta(days=1)
+try:
+    yesterday_result_df = pd.read_csv(
+        f'./data/{yesterday.year:04}-{yesterday.month:02}-{yesterday.day:02}.csv')
+    yesterday_win = len(
+        yesterday_result_df.loc[yesterday_result_df['prediction_roi'] > 0].index)
+    yesterday_lose = len(
+        yesterday_result_df.loc[yesterday_result_df['prediction_roi'] < 0].index)
+    yesterday_roi = round(yesterday_result_df["prediction_roi"].sum(), 2)
+except:
+    pass
 predictions = result.predict(X_test.drop(
     columns=['player1_odds', 'player2_odds'])).array
 good = 0
@@ -75,5 +88,10 @@ print(f'good: {good}. bad: {bad}. win_rate: {good / (good + bad)}')
 print(f'virtual balance: {round(balance, 2)}')
 print(f'earnings per match: {round(balance, 2) / (good + bad)}')
 print(f'answer check roi: {round(roi, 2)}')
+try:
+    print(
+        f'yesterday results: win:{yesterday_win} lose:{yesterday_lose} win_rate: {round(yesterday_win / (yesterday_win + yesterday_lose) ,2)} roi:{yesterday_roi}')
+except:
+    pass
 print("=======================================================================================")
 print(result.summary())
