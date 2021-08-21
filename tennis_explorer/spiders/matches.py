@@ -255,7 +255,10 @@ class MatchesExplorer(scrapy.Spider):
         ]]  # 説明変数
 
         try:
-            return round(self.prediction_model.predict(x.astype(float)).array[0], 2)
+            predict = round(self.prediction_model.predict(x.astype(float)).array[0], 2)
+            if predict != 0 and predict <1:
+                predict = 1.00
+            return predict
         except Exception as e:
             print(e)
             return 0
