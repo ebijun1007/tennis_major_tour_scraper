@@ -20,7 +20,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run a one-line script
+      - name: Run Answer Cralwer
+        run: scrapy crawl answer
+      - name: Run Matches Cralwer
         run: scrapy crawl matches
       - name: git setting
         run: |
