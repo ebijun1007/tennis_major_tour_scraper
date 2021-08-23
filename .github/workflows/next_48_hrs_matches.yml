@@ -22,6 +22,10 @@ jobs:
           pip install -r requirements.txt
       - name: Run Answer Cralwer
         run: scrapy crawl answer
+      - name: Join CSV
+        run: python join_csv.py
+      - name: Update OLS Model
+        run: python analyze.py
       - name: Run Matches Cralwer
         run: scrapy crawl matches
       - name: git setting

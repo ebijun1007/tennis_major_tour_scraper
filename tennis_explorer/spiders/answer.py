@@ -26,7 +26,7 @@ class AnswerExplorer(scrapy.Spider):
 
     def close(self):
         df = pd.read_csv(self.answer_file)
-        df.drop_duplicates().to_csv(self.answer_file)
+        df.drop_duplicates().to_csv(self.answer_file, index=False)
 
     # get match details
     def parse_detail(self, response):
@@ -34,28 +34,33 @@ class AnswerExplorer(scrapy.Spider):
         if (response.css('td.gScore::text').get() == "\xa0"):
             return
 
-        match_id = response.url.split('id=')[1]
-        data = {"match_id": match_id}
-        data.update(self.df.loc[[int(match_id)]].to_dict('records')[0])
+        match_id = int(response.url.split('id=')[1])
+        print(f"match_id: {match_id}")
+        data = self.df.loc[self.df['match_id'] == match_id]
+        print(data)
+        # data = df.loc[df['match_id'] == match_id]
+
         winner_name = self.name_order(
             response.css('th.plName ::text').get())
 
-        if(data["player1_name"] == winner_name):
+        if(data.iloc[0]['player1_name'] == winner_name):
             winner = 1
         else:
             winner = 2
-        data["winner"] = winner
+        data.assign(winner=-winner)
 
-        if(round(data["predict"], 0) == winner):
+        if(round(data.iloc[0]['predict'], 0) == winner):
             data["prediction_roi"] = data[f"player{winner}_odds"]
         else:
-            data["prediction_roi"] = -1
+            data.assign(prediction_roi=-1)
 
         with open(self.answer_file, 'a', newline='') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=data.keys())
             if csvfile.tell() == 0:
-                writer.writeheader()
-            writer.writerow(data)
+                data.to_csv(self.answer_file, mode='a',
+                            header=False, index=True)
+            else:
+                data.to_csv(self.answer_file, mode='a',
+                            header=False, index=False)
 
     def name_order(self, name):
         if(len(ordered_name := name.split(" ")) == 2):
