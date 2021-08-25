@@ -87,7 +87,7 @@ print("=========================================================================
 print(f'good: {good}. bad: {bad}. win_rate: {good / (good + bad)}')
 print(f'virtual balance: {round(balance, 2)}')
 print(f'earnings per match: {round(balance, 2) / (good + bad)}')
-print(f'answer check roi: {round(roi, 2)}')
+print(f'total prediction roi: {round(roi, 2)}')
 try:
     print(
         f'yesterday results: win:{yesterday_win} lose:{yesterday_lose} win_rate: {round(yesterday_win / (yesterday_win + yesterday_lose) ,2)} roi:{yesterday_roi}')

@@ -46,7 +46,7 @@ class AnswerExplorer(scrapy.Spider):
         data = data.assign(winner=winner)
         predicted_winner = round(data.iloc[0]['predict'], 0)
         if(predicted_winner == winner):
-            roi = data.iloc[0][f"player{winner}_odds"]
+            roi = float(data.iloc[0][f"player{winner}_odds"] - 1)
             data = data.assign(prediction_roi=roi)
         else:
             data = data.assign(prediction_roi=-1)
