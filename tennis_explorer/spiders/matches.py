@@ -76,6 +76,8 @@ class MatchesExplorer(scrapy.Spider):
         title = f'{response.css("#center > div:nth-child(2) > a ::text").get()}{response.xpath("/html/body/div[1]/div[1]/div/div[3]/div[3]/div[1]/text()[2]").get()}'
         if "Qualification" in title:
             return
+        if "qualification" in title:
+            return
         time_stamp = self.parse_timestamp(response.xpath(
             '//*[@id="center"]/div[1]/span/text()').get(), response.xpath('//*[@id="center"]/div[1]/text()[1]').get())
         surface = title.split(',')[2].lstrip()
