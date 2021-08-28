@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from os import path
+from prediction_model import EXPLANATORY_VARIABLES
 import requests  # to get image from the web
 import scrapy
 from bs4 import BeautifulSoup
@@ -247,16 +248,7 @@ class MatchesExplorer(scrapy.Spider):
         df = pd.DataFrame.from_dict(data, orient='index').T
         df = df.dropna()
 
-        x = df[[
-            'player1_age',
-            'player1_year_surface_win',
-            'player1_year_surface_lose',
-            'player1_H2H',
-            'player2_age',
-            'player2_year_surface_win',
-            'player2_year_surface_lose',
-            'player2_H2H',
-        ]]  # 説明変数
+        x = df[EXPLANATORY_VARIABLES]  # 説明変数
 
         try:
             predict = round(self.prediction_model.predict(

@@ -1,3 +1,4 @@
+from prediction_model import EXPLANATORY_VARIABLES
 import pandas as pd
 import statsmodels.api as sm
 from sklearn.model_selection import train_test_split
@@ -6,33 +7,10 @@ from datetime import datetime, timedelta, timezone
 
 df = pd.read_csv('merged.csv')
 roi = df["prediction_roi"].sum()
-df = df[[
-    'winner',
-    'player1_age',
-    'player1_year_surface_win',
-    'player1_year_surface_lose',
-    'player1_odds',
-    'player1_H2H',
-    'player2_age',
-    'player2_year_surface_win',
-    'player2_year_surface_lose',
-    'player2_odds',
-    'player2_H2H',
-]]
+df = df[EXPLANATORY_VARIABLES]
 df = df.dropna()
 
-x = pd.get_dummies(df[[
-    'player1_age',
-    'player1_year_surface_win',
-    'player1_year_surface_lose',
-    'player1_odds',
-    'player1_H2H',
-    'player2_age',
-    'player2_year_surface_win',
-    'player2_year_surface_lose',
-    'player2_odds',
-    'player2_H2H',
-]])  # 説明変数
+x = pd.get_dummies(df.drop(columns='winner'))  # 説明変数
 
 y = df['winner']  # 目的変数
 
