@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from os import path
-from prediction_model import EXPLANATORY_VARIABLES
+from explanatory_variables import EXPLANATORY_VARIABLES
 import requests  # to get image from the web
 import scrapy
 from bs4 import BeautifulSoup
@@ -11,7 +11,7 @@ import statsmodels.api as sm
 import wget
 import csv
 import os
-import json
+import lightgbm as lgb  # LightGBM
 
 
 class MatchesExplorer(scrapy.Spider):
@@ -28,12 +28,15 @@ class MatchesExplorer(scrapy.Spider):
         f"https://www.tennisexplorer.com/next/?type=wta-single{next_day_search_condition}&timezone=+9",
     ]
     CRAWL_FLAG = False
+    EXPLANATORY_VARIABLES.remove("winner")
 
-    LEARNED_MODEL = "learned_model.pkl"
+    # options: multiple_regression_model, lightbgm_model
+    LEARNED_MODEL = "lightbgm_model.pkl"
     NEXT_24_HOURS_MATCHES = "./data/next_48_hours_match.csv"
     os.remove(NEXT_24_HOURS_MATCHES) if os.path.exists(
         NEXT_24_HOURS_MATCHES) else None
-    prediction_model = sm.load("learned_model.pkl")  # load from local
+    # prediction_model = sm.load("learned_model.pkl")  # load from local
+    prediction_model = lgb.Booster(model_file=LEARNED_MODEL)  # load from local
 
     def start_requests(self):
         yield scrapy.Request(url=self.HOME_PAGE, callback=self.parse_main_tournaments, meta={"dont_cache": True})
@@ -112,7 +115,7 @@ class MatchesExplorer(scrapy.Spider):
         }
         base.update(data)
 
-        with open(self.NEXT_24_HOURS_MATCHES, 'a', newline='') as csvfile:
+        with open(self.NEXT_24_HOURS_MATCHES, 'a+', newline='') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=base.keys())
             if csvfile.tell() == 0:
                 writer.writeheader()
@@ -253,6 +256,11 @@ class MatchesExplorer(scrapy.Spider):
         try:
             predict = round(self.prediction_model.predict(
                 x.astype(float)).array[0], 2)
+        except AttributeError:
+            predict = round(self.prediction_model.predict(
+                x.astype(float))[0], 2)
+
+        try:
             if predict != 0 and predict < 1:
                 predict = 1.00
             elif predict > 2:

@@ -1,9 +1,10 @@
-from prediction_model import EXPLANATORY_VARIABLES
+from explanatory_variables import EXPLANATORY_VARIABLES
 import pandas as pd
 import statsmodels.api as sm
 from sklearn.model_selection import train_test_split
 import numpy as np
 from datetime import datetime, timedelta, timezone
+import lightgbm as lgb  # LightGBM
 
 df = pd.read_csv('merged.csv')
 roi = df["prediction_roi"].sum()
@@ -21,11 +22,14 @@ X_train, X_test, y_train, y_test = train_test_split(
 X = sm.add_constant(x)
 
 # 最小二乗法でモデル化
-model = sm.OLS(y_train, X_train.drop(
-    columns=['player1_odds', 'player2_odds']).astype(float))
-result = model.fit()
-result.save('learned_model.pkl')
-# new_results = sm.load('learned_model.pkl')
+# model = sm.OLS(y_train, X_train.astype(float))
+# result = model.fit()
+# result.save('multiple_regression_model.pkl')
+
+model2 = lgb.LGBMRegressor()  # モデルのインスタンスの作成
+result = model2.fit(X_train.astype(float), y_train)  # モデルの学習
+result.booster_.save_model('lightbgm_model.pkl')
+
 
 # # 重回帰分析の結果を表示する
 # print(result.summary())
@@ -42,8 +46,11 @@ try:
     yesterday_roi = round(yesterday_result_df["prediction_roi"].sum(), 2)
 except:
     pass
-predictions = result.predict(X_test.drop(
-    columns=['player1_odds', 'player2_odds'])).array
+predictions = result.predict(X_test)
+try:
+    predictions = predictions.array
+except:
+    pass
 good = 0
 bad = 0
 balance = 0
@@ -72,4 +79,4 @@ try:
 except:
     pass
 print("=======================================================================================")
-print(result.summary())
+# print(result.summary())
