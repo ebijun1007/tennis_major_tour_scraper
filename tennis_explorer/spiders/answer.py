@@ -3,7 +3,6 @@ from os import path
 import scrapy
 from bs4 import BeautifulSoup
 import pandas as pd
-import csv
 import statsmodels.api as sm
 import numpy as np
 

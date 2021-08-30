@@ -31,12 +31,14 @@ class MatchesExplorer(scrapy.Spider):
     EXPLANATORY_VARIABLES.remove("winner")
 
     # options: multiple_regression_model, lightbgm_model
-    LEARNED_MODEL = "lightbgm_model.pkl"
     NEXT_24_HOURS_MATCHES = "./data/next_48_hours_match.csv"
     os.remove(NEXT_24_HOURS_MATCHES) if os.path.exists(
         NEXT_24_HOURS_MATCHES) else None
     # prediction_model = sm.load("learned_model.pkl")  # load from local
-    prediction_model = lgb.Booster(model_file=LEARNED_MODEL)  # load from local
+    atp_prediction_model = lgb.Booster(
+        model_file="atp_lightbgm_model.pkl")  # load from local
+    wta_prediction_model = lgb.Booster(
+        model_file="wta_lightbgm_model.pkl")  # load from local
 
     def start_requests(self):
         yield scrapy.Request(url=self.HOME_PAGE, callback=self.parse_main_tournaments, meta={"dont_cache": True})
@@ -62,6 +64,7 @@ class MatchesExplorer(scrapy.Spider):
         return list(filter(lambda name: name not in ['Davis Cup'], match_list))
 
     def parse_todays_match(self, response):
+        tour_type = "wta" if "wta" in response.url else "atp"
         for tr in response.css('table.result tr'):
             if(tr.css('tr::attr(class)').get() == "head flags"):
                 self.CRAWL_FLAG = tr.css(
@@ -73,7 +76,7 @@ class MatchesExplorer(scrapy.Spider):
                     detail_page = tr.css(
                         'a[title="Click for match detail"]::attr(href)').get()
                     if(detail_page):
-                        yield scrapy.Request(url=response.urljoin(detail_page), callback=self.parse_detail)
+                        yield scrapy.Request(url=response.urljoin(detail_page), callback=self.parse_detail, meta={"tour_type": tour_type})
 
     def parse_detail(self, response):
         player_profile_urls = response.css('th.plName a::attr(href)').getall()
@@ -106,11 +109,11 @@ class MatchesExplorer(scrapy.Spider):
         data = {}
         data.update(player1_data)
         data.update(player2_data)
-        predict = self.predict(data)
+        predict = self.predict(response.meta["tour_type"], data)
         base = {
             "match_id": str(response.url).split("id=")[1],
             "time_stamp": time_stamp,
-            "title": title,
+            "title": f"{response.meta['tour_type']}, {title}",
             "predict": predict,
         }
         base.update(data)
@@ -247,18 +250,24 @@ class MatchesExplorer(scrapy.Spider):
                 balance -= 1
         return round(balance, 2)
 
-    def predict(self, data):
+    def predict(self, match_type, data):
+        if match_type == "atp":
+            prediction_model = self.atp_prediction_model
+        elif match_type == "wta":
+            prediction_model = self.wta_prediction_model
         df = pd.DataFrame.from_dict(data, orient='index').T
         df = df.dropna()
 
         x = df[EXPLANATORY_VARIABLES]  # 説明変数
 
         try:
-            predict = round(self.prediction_model.predict(
+            predict = round(prediction_model.predict(
                 x.astype(float)).array[0], 2)
         except AttributeError:
-            predict = round(self.prediction_model.predict(
+            predict = round(prediction_model.predict(
                 x.astype(float))[0], 2)
+        except ValueError:
+            return 0
 
         try:
             if predict != 0 and predict < 1:
