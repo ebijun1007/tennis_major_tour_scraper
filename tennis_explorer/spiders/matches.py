@@ -162,6 +162,9 @@ class MatchesExplorer(scrapy.Spider):
             elo_surface = float(row.iloc[0][f'{surface.lower()[0]}Elo'])
             return round((elo + elo_surface) / 2)
         except:
+            print(player)
+            with open("unmatched_name_list.txt", 'a+', newline='') as f:
+                f.write(player)
             return "-"
 
     def get_odds(self, table):
