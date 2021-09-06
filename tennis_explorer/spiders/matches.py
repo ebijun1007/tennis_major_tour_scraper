@@ -113,7 +113,8 @@ class MatchesExplorer(scrapy.Spider):
         base = {
             "match_id": str(response.url).split("id=")[1],
             "time_stamp": time_stamp,
-            "title": f"{response.meta['tour_type']}, {title}",
+            "title": title,
+            "tour": response.meta['tour_type'],
             "predict": predict,
         }
         base.update(data)
