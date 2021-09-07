@@ -8,7 +8,7 @@ import re
 import pandas as pd
 import io
 import statsmodels.api as sm
-import wget
+import json
 import csv
 import os
 import lightgbm as lgb  # LightGBM
@@ -153,7 +153,7 @@ class MatchesExplorer(scrapy.Spider):
         elif(len(ordered_name) == 3):
             return ordered_name[2] + " " + ordered_name[0] + " " + ordered_name[1]
         elif(len(ordered_name) == 4):
-            return ordered_name[1] + " " + ordered_name[0]
+            return ordered_name[0] + " " + ordered_name[1] + " " + ordered_name[2]
 
     def get_surface_elo(self, player, surface):
         df = self.get_elo_ranking()
@@ -163,10 +163,16 @@ class MatchesExplorer(scrapy.Spider):
             elo_surface = float(row.iloc[0][f'{surface.lower()[0]}Elo'])
             return round((elo + elo_surface) / 2)
         except:
-            print(player)
-            with open("unmatched_name_list.txt", 'a+', newline='') as f:
-                f.write(player)
-            return "-"
+            with open("unmatched_name_list.json", 'r+') as f:
+                try:
+                    data = json.load(f)
+                except:
+                    data = {}
+                data[player] = player
+                f.seek(0)
+                json.dump(data, f, ensure_ascii=False, indent=4,
+                          sort_keys=True, separators=(',', ': '))
+                return "-"
 
     def get_odds(self, table):
         odds = ["-", "-"]
@@ -188,7 +194,7 @@ class MatchesExplorer(scrapy.Spider):
             height, weight = get_integer(
                 [row.text for row in data if "Height / Weight" in row.text][0])
         except:
-            height, weight = ["-", "-"]
+            height, weight = self.load_height_and_weight(name)
         age = get_integer(
             [row.text for row in data if "Age" in row.text][0])[0]
         try:
@@ -282,6 +288,24 @@ class MatchesExplorer(scrapy.Spider):
         except Exception as e:
             print(e)
             return 0
+
+    def load_height_and_weight(self, name):
+        with open("physical_data.json", 'r+') as f:
+            try:
+                data = json.load(f)
+            except:
+                data = {"players": {}}
+            if(name in data["players"]):
+                return data["players"][name]["height"], data["players"][name]["weight"]
+            else:
+                data["players"][name] = {
+                    "height": "-",
+                    "weight": "-",
+                }
+                f.seek(0)
+                json.dump(data, f, ensure_ascii=False, indent=4,
+                          sort_keys=True, separators=(',', ': '))
+                return "-", "-"
 
 
 def get_integer(string):
