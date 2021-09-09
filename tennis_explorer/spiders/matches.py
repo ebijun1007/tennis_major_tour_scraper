@@ -87,6 +87,7 @@ class MatchesExplorer(scrapy.Spider):
             return
         time_stamp = self.parse_timestamp(response.xpath(
             '//*[@id="center"]/div[1]/span/text()').get(), response.xpath('//*[@id="center"]/div[1]/text()[1]').get())
+        match_round = title.split(',')[1].lstrip()
         surface = title.split(',')[2].lstrip()
         H2H = response.xpath('//*[@id="center"]/h2[1]').get()
         odds = self.get_odds(response.css('div#oddsMenu-1-data table'))
@@ -115,6 +116,8 @@ class MatchesExplorer(scrapy.Spider):
             "time_stamp": time_stamp,
             "title": title,
             "tour": response.meta['tour_type'],
+            "round": match_round,
+            "surface": surface,
             "predict": predict,
         }
         base.update(data)

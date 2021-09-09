@@ -12,20 +12,25 @@ class AnswerExplorer(scrapy.Spider):
     home_page = "https://www.tennisexplorer.com/match-detail/"
     jst = timezone(timedelta(hours=9), 'JST')
     now = datetime.now(jst) - timedelta(days=1)
-    df_org = pd.read_csv("./data/next_48_hours_match.csv", index_col=0)
-    df = df_org.copy()
-    df.insert(3, 'winner', np.nan)
-    df.insert(4, 'prediction_roi', np.nan)
-    answer_file = f'./data/{now.strftime("%Y-%m-%d")}.csv'
+    ANSWER_FILE = f'./data/{now.strftime("%Y-%m-%d")}.csv'
+    MATCH_FILE = "./data/next_48_hours_match.csv"
 
     def start_requests(self):
-        self.df_org.to_csv("./data/next_48_hours_match.csv")
-        for id in self.df.index.array:
-            yield scrapy.Request(url=f"{self.home_page}?id={id}", callback=self.parse_detail)
+        try:
+            self.df_org = pd.read_csv(
+                self.MATCH_FILE, index_col=0)
+            self.df = self.df_org.copy()
+            self.df.insert(3, 'winner', np.nan)
+            self.df.insert(4, 'prediction_roi', np.nan)
+            self.df_org.to_csv(self.MATCH_FILE)
+            for id in self.df.index.array:
+                yield scrapy.Request(url=f"{self.home_page}?id={id}", callback=self.parse_detail)
+        except:
+            exit()
 
     def close(self):
-        df = pd.read_csv(self.answer_file)
-        df.drop_duplicates().to_csv(self.answer_file, index=False)
+        df = pd.read_csv(self.ANSWER_FILE)
+        df.drop_duplicates().to_csv(self.ANSWER_FILE, index=False)
 
     # get match details
     def parse_detail(self, response):
@@ -52,12 +57,12 @@ class AnswerExplorer(scrapy.Spider):
         else:
             data = data.assign(prediction_roi=-1)
 
-        with open(self.answer_file, 'a', newline='') as csvfile:
+        with open(self.ANSWER_FILE, 'a', newline='') as csvfile:
             if csvfile.tell() == 0:
-                data.to_csv(self.answer_file, mode='w',
+                data.to_csv(self.ANSWER_FILE, mode='w',
                             header=True, index=True)
             else:
-                data.to_csv(self.answer_file, mode='a',
+                data.to_csv(self.ANSWER_FILE, mode='a',
                             header=False, index=True)
 
     def name_order(self, name):
