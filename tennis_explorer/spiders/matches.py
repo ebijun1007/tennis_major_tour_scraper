@@ -32,8 +32,6 @@ class MatchesExplorer(scrapy.Spider):
 
     # options: multiple_regression_model, lightbgm_model
     NEXT_24_HOURS_MATCHES = "./data/next_48_hours_match.csv"
-    os.remove(NEXT_24_HOURS_MATCHES) if os.path.exists(
-        NEXT_24_HOURS_MATCHES) else None
     # prediction_model = sm.load("learned_model.pkl")  # load from local
     atp_prediction_model = lgb.Booster(
         model_file="atp_lightbgm_model.pkl")  # load from local
@@ -41,6 +39,8 @@ class MatchesExplorer(scrapy.Spider):
         model_file="wta_lightbgm_model.pkl")  # load from local
 
     def start_requests(self):
+        os.remove(self.NEXT_24_HOURS_MATCHES) if os.path.exists(
+            self.NEXT_24_HOURS_MATCHES) else None
         yield scrapy.Request(url=self.HOME_PAGE, callback=self.parse_main_tournaments, meta={"dont_cache": True})
 
     # get main tournament names
@@ -171,11 +171,20 @@ class MatchesExplorer(scrapy.Spider):
                     data = json.load(f)
                 except:
                     data = {}
-                data[player] = player
-                f.seek(0)
-                json.dump(data, f, ensure_ascii=False, indent=4,
-                          sort_keys=True, separators=(',', ': '))
-                return "-"
+                try:
+                    data[player]
+                    row = df[df['Player'].str.contains(
+                        ".".join(data[player].split(' ')))]
+                    elo = float(row.iloc[0]['Elo'])
+                    elo_surface = float(
+                        row.iloc[0][f'{surface.lower()[0]}Elo'])
+                    return round((elo + elo_surface) / 2)
+                except:
+                    data[player] = ""
+                    f.seek(0)
+                    json.dump(data, f, ensure_ascii=False, indent=4,
+                              sort_keys=True, separators=(',', ': '))
+                    return "-"
 
     def get_odds(self, table):
         odds = ["-", "-"]
