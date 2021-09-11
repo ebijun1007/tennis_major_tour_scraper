@@ -81,9 +81,11 @@ class MatchesExplorer(scrapy.Spider):
     def parse_detail(self, response):
         player_profile_urls = response.css('th.plName a::attr(href)').getall()
         title = response.css("#center > div:nth-child(2) > a ::text").get()
-        if "Qualification" in title:
+        match_detail = response.xpath(
+            '//*[@id="center"]/div[1]/text()[2]').get()
+        if "Qualification" in match_detail:
             return
-        if "qualification" in title:
+        if "qualification" in match_detail:
             return
         time_stamp = self.parse_timestamp(response.xpath(
             '//*[@id="center"]/div[1]/span/text()').get(), response.xpath('//*[@id="center"]/div[1]/text()[1]').get())
