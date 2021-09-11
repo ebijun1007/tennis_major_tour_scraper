@@ -19,8 +19,8 @@ class AnswerExplorer(scrapy.Spider):
         self.df_org = pd.read_csv(
             self.MATCH_FILE, index_col=0)
         self.df = self.df_org.copy()
-        self.df.insert(3, 'winner', np.nan)
-        self.df.insert(4, 'prediction_roi', np.nan)
+        self.df.insert(5, 'winner', np.nan)
+        self.df.insert(7, 'prediction_roi', np.nan)
         self.df_org.to_csv(self.MATCH_FILE)
         for id in self.df.index.array:
             yield scrapy.Request(url=f"{self.home_page}?id={id}", callback=self.parse_detail)
