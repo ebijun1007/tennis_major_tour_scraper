@@ -80,15 +80,17 @@ class MatchesExplorer(scrapy.Spider):
 
     def parse_detail(self, response):
         player_profile_urls = response.css('th.plName a::attr(href)').getall()
-        title = f'{response.css("#center > div:nth-child(2) > a ::text").get()}{response.xpath("/html/body/div[1]/div[1]/div/div[3]/div[3]/div[1]/text()[2]").get()}'
+        title = response.css("#center > div:nth-child(2) > a ::text").get()
         if "Qualification" in title:
             return
         if "qualification" in title:
             return
         time_stamp = self.parse_timestamp(response.xpath(
             '//*[@id="center"]/div[1]/span/text()').get(), response.xpath('//*[@id="center"]/div[1]/text()[1]').get())
-        match_round = title.split(',')[1].lstrip()
-        surface = title.split(',')[2].lstrip()
+        match_detail = response.xpath(
+            "/html/body/div[1]/div[1]/div/div[3]/div[3]/div[1]/text()[2]").get()
+        match_round = match_detail.split(',')[1].lstrip()
+        surface = match_detail.split(',')[2].lstrip()
         H2H = response.xpath('//*[@id="center"]/h2[1]').get()
         odds = self.get_odds(response.css('div#oddsMenu-1-data table'))
         player1 = self.parse_player_profile(
