@@ -292,7 +292,8 @@ class MatchesExplorer(scrapy.Spider):
         except AttributeError:
             predict = round(prediction_model.predict(
                 x.astype(float))[0], 2)
-        except ValueError:
+        except Exception as e:
+            print(e)
             return 0
 
         try:

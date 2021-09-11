@@ -7,9 +7,6 @@ path = "./data/"
 all_files = glob.glob(os.path.join(path, "20*.csv"))
 df_from_each_file = (pd.read_csv(f, sep=',') for f in all_files)
 df_merged = pd.concat(df_from_each_file, ignore_index=True).replace("-", "")
-df_merged['tour'] = df_merged['title'].apply(
-    lambda x: 'wta' if any(wta in x for wta in ["wta", "WTA"]) else 'atp')
-
 df_merged.drop_duplicates().to_csv("merged.csv", index=False)
 
 atp_df = df_merged.loc[df_merged["tour"] == "atp"]
