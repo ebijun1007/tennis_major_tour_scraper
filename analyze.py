@@ -46,11 +46,12 @@ if __name__ == "__main__":
             'objective': 'regression',
             'metric': {'l2', 'l1'},
             'num_leaves': 31,
-            'learning_rate': 0.05,
+            'learning_rate': 0.01,
             'feature_fraction': 0.9,
             'bagging_fraction': 0.8,
             'bagging_freq': 5,
-            'verbose': 0
+            'verbose': 0,
+            'max_depth': 3
         }
 
         evals_result = {}
