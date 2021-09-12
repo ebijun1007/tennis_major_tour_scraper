@@ -25,11 +25,8 @@ class AnswerExplorer(scrapy.Spider):
         for id in self.df.index.array:
             yield scrapy.Request(url=f"{self.home_page}?id={id}", callback=self.parse_detail)
 
-    def close(self):
-        df = pd.read_csv(self.ANSWER_FILE)
-        df.drop_duplicates().to_csv(self.ANSWER_FILE, index=False)
-
     # get match details
+
     def parse_detail(self, response):
         # when score is empty, do not parse
         if (response.css('td.gScore::text').get() == "\xa0"):

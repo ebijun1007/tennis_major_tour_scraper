@@ -170,25 +170,22 @@ class MatchesExplorer(scrapy.Spider):
             elo_surface = float(row.iloc[0][f'{surface.lower()[0]}Elo'])
             return round((elo + elo_surface) / 2)
         except:
-            with open("unmatched_name_list.json", 'r+') as f:
-                try:
-                    data = json.load(f)
-                except:
-                    data = {}
-                try:
-                    data[player]
-                    row = df[df['Player'].str.contains(
-                        ".".join(data[player].split(' ')))]
-                    elo = float(row.iloc[0]['Elo'])
-                    elo_surface = float(
-                        row.iloc[0][f'{surface.lower()[0]}Elo'])
-                    return round((elo + elo_surface) / 2)
-                except:
-                    data[player] = ""
-                    f.seek(0)
-                    json.dump(data, f, ensure_ascii=False, indent=4,
-                              sort_keys=True, separators=(',', ': '))
-                    return "-"
+            with open("unmatched_name_list.json", 'r') as f:
+                data = json.load(f)
+            try:
+                data[player]
+                row = df[df['Player'].str.contains(
+                    ".".join(data[player].split(' ')))]
+                elo = float(row.iloc[0]['Elo'])
+                elo_surface = float(
+                    row.iloc[0][f'{surface.lower()[0]}Elo'])
+                return round((elo + elo_surface) / 2)
+            except:
+                data[player] = ""
+            with open("unmatched_name_list.json", 'w') as f:
+                json.dump(data, f, ensure_ascii=False, indent=4,
+                          sort_keys=True, separators=(',', ': '))
+            return "-"
 
     def get_odds(self, table):
         odds = ["-", "-"]

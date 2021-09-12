@@ -5,7 +5,6 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 from datetime import datetime, timedelta, timezone
 import lightgbm as lgb  # LightGBM
-import optuna
 import matplotlib.pyplot as plt
 
 from contextlib import contextmanager
