@@ -59,6 +59,8 @@ class MatchesExplorer(scrapy.Spider):
         x = table.css('td::text').getall()
         lower_level_tournaments_index = list(
             filter(('\xa0').__ne__, x)).index('Lower level tournaments')
+        if(lower_level_tournaments_index == 0):
+            return []
         match_list = list(filter(lambda name: name not in ['\xa0'], table.css(
             'td a::text').getall()))[0:lower_level_tournaments_index-1]
         return list(filter(lambda name: name not in ['Davis Cup'], match_list))
