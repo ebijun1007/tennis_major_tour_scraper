@@ -2,7 +2,7 @@ name: GetNext24HrsMatches
 
 on:
   schedule:
-    - cron: "0 0/12 * * *"
+    - cron: "0 0/6 * * *"
   workflow_dispatch:
 
 jobs:
@@ -43,7 +43,7 @@ jobs:
           git push origin main
       - name: dispatch update-packages
         uses: peter-evans/repository-dispatch@v1
-        env:
+        with:
           repository: ebijun1007/blog_luden
           token: ${{ secrets.PERSONAL_TOKEN }}
           event-type: build
