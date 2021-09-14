@@ -3,6 +3,7 @@ name: GetNext24HrsMatches
 on:
   schedule:
     - cron: "0 0/12 * * *"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -40,3 +41,9 @@ jobs:
           git commit -m "Update Match Schedules" -a
           git pull
           git push origin main
+      - name: dispatch update-packages
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          repository: ebijun1007/blog_luden
+          token: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
+          event-type: build
