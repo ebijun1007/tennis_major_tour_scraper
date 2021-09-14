@@ -43,7 +43,7 @@ jobs:
           git push origin main
       - name: dispatch update-packages
         uses: peter-evans/repository-dispatch@v1
-        with:
+        env:
           repository: ebijun1007/blog_luden
-          token: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
+          token: ${{ secrets.PERSONAL_TOKEN }}
           event-type: build
