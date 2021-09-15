@@ -25,9 +25,9 @@ def suppress_stdout():
 
 if __name__ == "__main__":
     for tour_type in ["atp", "wta"]:
-        df = pd.read_csv(f"{tour_type}.csv")
-        roi = df["prediction_roi"].sum()
-        df = df[EXPLANATORY_VARIABLES]
+        df_org = pd.read_csv(f"{tour_type}.csv")
+        roi = df_org["prediction_roi"].sum()
+        df = df_org[EXPLANATORY_VARIABLES]
         df = df.dropna()
 
         x = pd.get_dummies(df.drop(columns='winner'))  # 説明変数
@@ -77,6 +77,14 @@ if __name__ == "__main__":
         good = 0
         bad = 0
         balance = 0
+        very_good_preedictions_roi = df_org.query('(predict > 1.9 or predict < 1.1)')[
+            'prediction_roi'].sum()  # 1.1以下もしくは1.9以上
+        good_preedictions_roi = df_org.query('((predict < 1.9 and predict > 1.8) or (predict > 1.1 and predict < 1.2))')[
+            'prediction_roi'].sum()  # 1.2以下もしくは1.8以上
+        normal_preedictions_roi = df_org.query('((predict < 1.8 and predict > 1.7) or (predict > 1.2 and predict < 1.3))')[
+            'prediction_roi'].sum()  # 1.3以下もしくは1.7以上
+        bad_preedictions_roi = df_org.query('((predict < 1.7 and predict > 1.5) or (predict > 1.3 and predict < 1.5))')[
+            'prediction_roi'].sum()  # 1.4以下もしくは1.6以上
 
         for i in range(len(predictions)):
             balance -= 1
@@ -94,6 +102,19 @@ if __name__ == "__main__":
         print(f'virtual balance: {round(balance, 2)}')
         print(f'earnings per match: {round(balance, 2) / (good + bad)}')
         print(f'total prediction roi: {round(roi, 2)}')
+
+        print(f'1.1以下もしくは1.9以上: {round(very_good_preedictions_roi, 2)}')
+        print(f'1.2以下もしくは1.8以上: {round(good_preedictions_roi, 2)}')
+        print(f'1.3以下もしくは1.7以上: {round(normal_preedictions_roi, 2)}')
+        print(f'1.4以下もしくは1.6以上: {round(bad_preedictions_roi, 2)}')
+
+        round_list = [
+            "1. round", "2. round",
+            "round of 16", "quarterfinal", "semifinal", "final"
+        ]
+        for r in round_list:
+            roi = df_org.loc[df_org['round'] == r]['prediction_roi'].sum()
+            print(f'{r} summary is: {round(roi, 2)}')
 
     print("=======================================================================================")
     jst = timezone(timedelta(hours=9), 'JST')
