@@ -24,7 +24,7 @@ def suppress_stdout():
 
 
 if __name__ == "__main__":
-    for tour_type in ["atp", "wta"]:
+    for tour_type in ["atp", "wta", "merged"]:
         df_org = pd.read_csv(f"{tour_type}.csv")
         roi = df_org["prediction_roi"].sum()
         df = df_org[EXPLANATORY_VARIABLES]
@@ -77,6 +77,8 @@ if __name__ == "__main__":
         good = 0
         bad = 0
         balance = 0
+
+        # 予想の値に応じた利益
         very_good_preedictions_roi = df_org.query('(predict > 1.9 or predict < 1.1)')[
             'prediction_roi'].sum()  # 1.1以下もしくは1.9以上
         good_preedictions_roi = df_org.query('((predict < 1.9 and predict > 1.8) or (predict > 1.1 and predict < 1.2))')[
@@ -115,6 +117,38 @@ if __name__ == "__main__":
         for r in round_list:
             roi = df_org.loc[df_org['round'] == r]['prediction_roi'].sum()
             print(f'{r} summary is: {round(roi, 2)}')
+
+        # 年間ROIが高い選手に賭け続けた場合
+        higher_roi_sum = 0
+        lower_roi_sum = 0
+        for index, row in df_org.iterrows():
+            roi_higher = 1 if row['player1_roi'] > row['player2_roi'] else 2
+            winner = row['winner']
+            higher_roi_sum -= 1
+            lower_roi_sum -= 1
+            if np.isnan(row[f'player{winner}_odds']):
+                continue
+            if winner == roi_higher:
+                higher_roi_sum += float(row[f'player{winner}_odds'])
+            else:
+                lower_roi_sum += float(row[f'player{winner}_odds'])
+
+        print(f"higher_roi summary is: {round(higher_roi_sum, 2)}")
+        print(f"lower_roi summary is: {round(lower_roi_sum, 2)}")
+
+        # 年間ROIが5以上選手に賭け続けた場合。両者が超えている場合は高い方に賭ける
+        goor_roi_sum = 0
+        good_roi = 10
+        for index, row in df_org.query(f'player1_roi > {good_roi} or player2_roi >{good_roi}').iterrows():
+            winner = row['winner']
+            good_roi_player = 1 if row["player1_roi"] > good_roi else 2
+            goor_roi_sum -= 1
+            if np.isnan(row[f'player{winner}_odds']):
+                continue
+            if winner == good_roi_player:
+                goor_roi_sum += float(row[f'player{good_roi_player}_odds'])
+
+        print(f"good_roi summary is: {round(goor_roi_sum, 2)}")
 
     print("=======================================================================================")
     jst = timezone(timedelta(hours=9), 'JST')
