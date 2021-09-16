@@ -79,14 +79,25 @@ if __name__ == "__main__":
         balance = 0
 
         # 予想の値に応じた利益
-        very_good_preedictions_roi = df_org.query('(predict > 1.9 or predict < 1.1)')[
-            'prediction_roi'].sum()  # 1.1以下もしくは1.9以上
-        good_preedictions_roi = df_org.query('((predict < 1.9 and predict > 1.8) or (predict > 1.1 and predict < 1.2))')[
-            'prediction_roi'].sum()  # 1.2以下もしくは1.8以上
-        normal_preedictions_roi = df_org.query('((predict < 1.8 and predict > 1.7) or (predict > 1.2 and predict < 1.3))')[
-            'prediction_roi'].sum()  # 1.3以下もしくは1.7以上
-        bad_preedictions_roi = df_org.query('((predict < 1.7 and predict > 1.5) or (predict > 1.3 and predict < 1.5))')[
-            'prediction_roi'].sum()  # 1.4以下もしくは1.6以上
+        # 1.1以下もしくは1.9以上
+        very_good_preedictions = df_org.query(
+            '(predict > 1.9 or predict < 1.1) and (predict > 0)')
+        very_good_preedictions_roi = very_good_preedictions['prediction_roi'].sum(
+        )
+        # 1.2以下もしくは1.8以上
+        good_preedictions = df_org.query(
+            '((predict < 1.9 and predict > 1.8) or (predict > 1.1 and predict < 1.2))')
+        good_preedictions_roi = good_preedictions[
+            'prediction_roi'].sum()
+        # 1.3以下もしくは1.7以上
+        normal_preedictions = df_org.query(
+            '((predict < 1.8 and predict > 1.7) or (predict > 1.2 and predict < 1.3))')
+        normal_preedictions_roi = normal_preedictions['prediction_roi'].sum()
+        # 1.4以下もしくは1.6以上
+        bad_preedictions = df_org.query(
+            '((predict < 1.7 and predict > 1.5) or (predict > 1.3 and predict < 1.5))')
+        bad_preedictions_roi = bad_preedictions[
+            'prediction_roi'].sum()
 
         for i in range(len(predictions)):
             balance -= 1
@@ -105,10 +116,14 @@ if __name__ == "__main__":
         print(f'earnings per match: {round(balance, 2) / (good + bad)}')
         print(f'total prediction roi: {round(roi, 2)}')
 
-        print(f'1.1以下もしくは1.9以上: {round(very_good_preedictions_roi, 2)}')
-        print(f'1.2以下もしくは1.8以上: {round(good_preedictions_roi, 2)}')
-        print(f'1.3以下もしくは1.7以上: {round(normal_preedictions_roi, 2)}')
-        print(f'1.4以下もしくは1.6以上: {round(bad_preedictions_roi, 2)}')
+        print(
+            f'1.1以下もしくは1.9以上: {round(very_good_preedictions_roi, 2)} {len(very_good_preedictions)}試合 / {len(df_org)}試合中')
+        print(
+            f'1.2以下もしくは1.8以上: {round(good_preedictions_roi, 2)} {len(good_preedictions)}試合 / {len(df_org)}試合中')
+        print(
+            f'1.3以下もしくは1.7以上: {round(normal_preedictions_roi, 2)} {len(normal_preedictions)}試合 / {len(df_org)}試合中')
+        print(
+            f'1.4以下もしくは1.6以上: {round(bad_preedictions_roi, 2)} {len(bad_preedictions)}試合 / {len(df_org)}試合中')
 
         round_list = [
             "1. round", "2. round",
