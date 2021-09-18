@@ -225,8 +225,10 @@ class MatchesExplorer(scrapy.Spider):
         heads = [x.text for x in wl_table.find('tr').find_all('th')]
         surface_index = heads.index(surface.capitalize())
         year_row = wl_table.find('tbody').find_all('tr')[0]
-        year_wl = year_row.find_all('td')[1].text
-        year_surface_wl = year_row.find_all('td')[surface_index].text
+        year_wl = year_row.find_all(
+            'td')[1].text if year_row.find_all('td')[1].text != "-" else "0/0"
+        year_surface_wl = year_row.find_all('td')[surface_index].text if year_row.find_all(
+            'td')[surface_index].text != "-" else "0/0"
         career_row = wl_table.find('tfoot').find('tr')
         career_wl = career_row.find_all('td')[1].text
         career_surface_wl = career_row.find_all('td')[surface_index].text
