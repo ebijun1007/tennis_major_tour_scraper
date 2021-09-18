@@ -63,6 +63,7 @@ class MatchesExplorer(scrapy.Spider):
             return []
         match_list = list(filter(lambda name: name not in ['\xa0'], table.css(
             'td a::text').getall()))[0:lower_level_tournaments_index-1]
+        self.crawler.stats.set_value('match_list', match_list)
         return list(filter(lambda name: name not in ['Davis Cup'], match_list))
 
     def parse_todays_match(self, response):
@@ -81,14 +82,15 @@ class MatchesExplorer(scrapy.Spider):
                         yield scrapy.Request(url=response.urljoin(detail_page), callback=self.parse_detail, meta={"tour_type": tour_type})
 
     def parse_detail(self, response):
-        player_profile_urls = response.css('th.plName a::attr(href)').getall()
-        title = response.css("#center > div:nth-child(2) > a ::text").get()
         match_detail = response.xpath(
             '//*[@id="center"]/div[1]/text()[2]').get()
         if "Qualification" in match_detail:
             return
         if "qualification" in match_detail:
             return
+        self.crawler.stats.inc_value('count_load_parse_detail')
+        player_profile_urls = response.css('th.plName a::attr(href)').getall()
+        title = response.css("#center > div:nth-child(2) > a ::text").get()
         time_stamp = self.parse_timestamp(response.xpath(
             '//*[@id="center"]/div[1]/span/text()').get(), response.xpath('//*[@id="center"]/div[1]/text()[1]').get())
         match_detail = response.xpath(
@@ -133,6 +135,7 @@ class MatchesExplorer(scrapy.Spider):
             if csvfile.tell() == 0:
                 writer.writeheader()
             writer.writerow(base)
+        self.crawler.stats.inc_value('count_write_parse_detail')
 
     def parse_timestamp(self, date_string, time_string):
         time = time_string
