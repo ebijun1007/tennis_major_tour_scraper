@@ -230,8 +230,10 @@ class MatchesExplorer(scrapy.Spider):
         year_surface_wl = year_row.find_all('td')[surface_index].text if year_row.find_all(
             'td')[surface_index].text != "-" else "0/0"
         career_row = wl_table.find('tfoot').find('tr')
-        career_wl = career_row.find_all('td')[1].text
-        career_surface_wl = career_row.find_all('td')[surface_index].text
+        career_wl = career_row.find_all('td')[1].text if career_row.find_all('td')[
+            1].text != "-" else "0/0"
+        career_surface_wl = career_row.find_all('td')[surface_index].text if career_row.find_all(
+            'td')[surface_index].text != "-" else "0/0"
 
         year_total_win = year_wl.split('/')[0]
         year_total_lose = year_wl.split('/')[1]
