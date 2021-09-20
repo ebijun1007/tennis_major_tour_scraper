@@ -6,21 +6,40 @@ import numpy as np
 from datetime import datetime, timedelta, timezone
 import lightgbm as lgb  # LightGBM
 import matplotlib.pyplot as plt
+import sklearn.metrics
+import optuna
 
 from contextlib import contextmanager
-import sys
-import os
 
 
-@contextmanager
-def suppress_stdout():
-    with open(os.devnull, "w") as devnull:
-        old_stdout = sys.stdout
-        sys.stdout = devnull
-        try:
-            yield
-        finally:
-            sys.stdout = old_stdout
+def objective(trial, X_train, X_test, y_train, y_test):
+    optuna.logging.set_verbosity(optuna.logging.WARNING)
+    dtrain = lgb.Dataset(X_train, label=y_train)
+    dvalid = lgb.Dataset(X_test, label=y_test)
+
+    param = {
+        "objective": "regression",
+        "boosting_type": "gbdt",
+        'verbose': -1,
+        'metric': {'l2', 'l1'},
+        "lambda_l1": trial.suggest_float("lambda_l1", 1e-8, 10.0),
+        "lambda_l2": trial.suggest_float("lambda_l2", 1e-8, 10.0),
+        "num_leaves": trial.suggest_int("num_leaves", 2, 256),
+        "feature_fraction": trial.suggest_float("feature_fraction", 0.4, 1.0),
+        "bagging_fraction": trial.suggest_float("bagging_fraction", 0.4, 1.0),
+        "bagging_freq": trial.suggest_int("bagging_freq", 1, 7),
+        "min_child_samples": trial.suggest_int("min_child_samples", 5, 100),
+    }
+
+    # Add a callback for pruning.
+    gbm = lgb.train(
+        param, dtrain, valid_sets=[dtrain, dvalid], verbose_eval=False
+    )
+
+    preds = gbm.predict(X_test)
+    pred_labels = np.rint(preds)
+    accuracy = sklearn.metrics.accuracy_score(y_test, pred_labels)
+    return accuracy
 
 
 if __name__ == "__main__":
@@ -37,32 +56,32 @@ if __name__ == "__main__":
         X_train, X_test, y_train, y_test = train_test_split(
             x, y, train_size=0.7, random_state=0)
 
+        study = optuna.create_study(direction="maximize")
+        study.optimize(lambda trial: objective(
+            trial, X_train, X_test, y_train, y_test), n_trials=100)
+
+        trial = study.best_trial
+
         lgb_train = lgb.Dataset(X_train, y_train)
         lgb_eval = lgb.Dataset(X_test, y_test, reference=lgb_train)
 
-        params = {
+        evals_result = {}
+        params = trial.params
+        params.update({
             'boosting_type': 'gbdt',
             'objective': 'regression',
             'metric': {'l2', 'l1'},
-            'num_leaves': 31,
-            'learning_rate': 0.01,
-            'feature_fraction': 0.9,
-            'bagging_fraction': 0.8,
-            'bagging_freq': 5,
-            'verbose': 0,
-            'max_depth': 3
-        }
+            'verbose': -1,
+        })
 
-        evals_result = {}
-
-        with suppress_stdout():
-            gbm = lgb.train(params,
-                            lgb_train,
-                            num_boost_round=2000,
-                            valid_sets=[lgb_train, lgb_eval],
-                            evals_result=evals_result,
-                            early_stopping_rounds=10,
-                            )
+        gbm = lgb.train(params,
+                        lgb_train,
+                        num_boost_round=2000,
+                        valid_sets=[lgb_train, lgb_eval],
+                        evals_result=evals_result,
+                        early_stopping_rounds=7,
+                        verbose_eval=False,
+                        )
 
         lgb.plot_metric(evals_result, metric='l1')
         plt.show()
