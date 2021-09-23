@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"net/http"
@@ -73,6 +74,13 @@ func get(url string) (res *http.Response) {
 }
 
 func main() {
-	url := os.Args[1]
-	Scrape(url)
+	for {
+		fmt.Print("URL? ")
+		// Scannerを使って一行読み
+		scanner := bufio.NewScanner(os.Stdin)
+		scanner.Scan()
+		// url := os.Args[1]
+		url := scanner.Text()
+		Scrape(url)
+	}
 }
