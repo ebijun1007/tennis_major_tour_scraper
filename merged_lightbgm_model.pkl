@@ -7,32 +7,95 @@ max_feature_idx=15
 objective=regression
 feature_names=player1_H2H player1_career_surface_lose player1_career_surface_win player1_career_total_lose player1_career_total_win player1_height player1_odds player1_roi player2_H2H player2_career_surface_lose player2_career_surface_win player2_career_total_lose player2_career_total_win player2_height player2_odds player2_roi
 feature_infos=[0:17] [3:234] [4:530] [26:580] [89:1119] [157:203] [1.02:24.620000000000001] [-13.199999999999999:18.27] [0:7] [2:271] [6:353] [30:524] [58:796] [158:211] [1.01:23.48] [-12.050000000000001:20.010000000000002]
-tree_sizes=403
+tree_sizes=465 649 620 538
 
 Tree=0
-num_leaves=3
+num_leaves=4
 num_cat=0
-split_feature=14 2
-split_gain=0.698168 0.195628
-threshold=2.3550000000000004 44.500000000000007
-decision_type=2 2
-left_child=1 -1
-right_child=-2 -3
-leaf_value=1.4829268292682927 1.4829268292682927 1.4939595811805193
-leaf_weight=14.999999999999998 38 64
-leaf_count=15 38 64
-internal_value=1.48293 1.49181
-internal_weight=0 79
-internal_count=117 79
+split_feature=14 14 14
+split_gain=8.77792 1.27927 0.397636
+threshold=2.2850000000000006 1.5100000000000002 1.7450000000000003
+decision_type=2 2 2
+left_child=1 -1 -3
+right_child=-2 2 -4
+leaf_value=1.5112095914455088 1.4593649841761664 1.4819197907302379 1.4924211576869941
+leaf_weight=55 83 25 39
+leaf_count=55 83 25 39
+internal_value=1.48293 1.50014 1.48481
+internal_weight=0 119 64
+internal_count=202 119 64
 is_linear=0
 shrinkage=1
+
+
+Tree=1
+num_leaves=7
+num_cat=0
+split_feature=11 3 12 15 7 5
+split_gain=1.48149 0.695121 0.85565 0.633591 0.514818 0.513298
+threshold=263.50000000000006 100.00000000000001 156.00000000000003 3.6600000000000006 -2.5049999999999994 174.50000000000003
+decision_type=2 2 2 2 2 2
+left_child=1 -1 -3 4 -2 -4
+right_child=3 2 5 -5 -6 -7
+leaf_value=-0.0033967453334140169 0 0 0 0 -0.025068768533762522 0.016891671041973214
+leaf_weight=18 18 20 19 19 26 82
+leaf_count=18 18 20 19 19 26 82
+internal_value=0 0.00596129 0.00960668 -0.0116682 -0.0175841 0.0137153
+internal_weight=0 139 121 63 44 101
+internal_count=202 139 121 63 44 101
+is_linear=0
+shrinkage=0.1
+
+
+Tree=2
+num_leaves=6
+num_cat=0
+split_feature=6 6 5 6 7
+split_gain=6.66119 0.975577 0.4946 0.200596 0.0024626
+threshold=1.6850000000000003 2.6350000000000002 175.50000000000003 2.1950000000000007 3.6350000000000002
+decision_type=2 2 2 2 2
+left_child=4 2 -2 -4 -1
+right_child=1 -3 3 -5 -6
+leaf_value=-0.024908978143244203 -0.0052686242785920838 0.023557081297958027 0.014441370120492091 0 -0.00063563448688913366
+leaf_weight=56 21 59 22 18 26
+leaf_count=56 21 59 22 18 26
+internal_value=0 0.0145989 0.00028799 0.00935121 -0.0209812
+internal_weight=0 120 61 40 82
+internal_count=202 120 61 40 82
+is_linear=0
+shrinkage=0.1
+
+
+Tree=3
+num_leaves=5
+num_cat=0
+split_feature=6 6 5 6
+split_gain=5.91725 0.633385 0.302304 0.254115
+threshold=1.6850000000000003 2.6350000000000002 175.50000000000003 2.1950000000000007
+decision_type=2 2 2 2
+left_child=-1 2 -2 -4
+right_child=1 -3 3 -5
+leaf_value=-0.021093243374429575 -0.0032036754197528475 0.019971648124740882 0.013366579057514755 0
+leaf_weight=80 20 59 22 19
+leaf_count=80 20 59 22 19
+internal_value=0 0.0125886 2.85972e-05 0.00751196
+internal_weight=0 120 61 41
+internal_count=200 120 61 41
+is_linear=0
+shrinkage=0.1
 
 
 end of trees
 
 feature_importances:
-player1_career_surface_win=1
-player2_odds=1
+player1_odds=6
+player1_height=3
+player2_odds=3
+player1_roi=2
+player1_career_total_lose=1
+player2_career_total_lose=1
+player2_career_total_win=1
+player2_roi=1
 
 parameters:
 [boosting: gbdt]
@@ -45,21 +108,21 @@ parameters:
 [valid: ]
 [num_iterations: 2000]
 [learning_rate: 0.1]
-[num_leaves: 234]
+[num_leaves: 251]
 [num_threads: 0]
 [deterministic: 0]
 [force_col_wise: 0]
 [force_row_wise: 0]
 [histogram_pool_size: -1]
 [max_depth: -1]
-[min_data_in_leaf: 10]
+[min_data_in_leaf: 18]
 [min_sum_hessian_in_leaf: 0.001]
-[bagging_fraction: 0.528039]
+[bagging_fraction: 0.982653]
 [pos_bagging_fraction: 1]
 [neg_bagging_fraction: 1]
 [bagging_freq: 3]
 [bagging_seed: 3]
-[feature_fraction: 0.594222]
+[feature_fraction: 0.570977]
 [feature_fraction_bynode: 1]
 [feature_fraction_seed: 2]
 [extra_trees: 0]
@@ -67,8 +130,8 @@ parameters:
 [early_stopping_round: 7]
 [first_metric_only: 0]
 [max_delta_step: 0]
-[lambda_l1: 9.99138]
-[lambda_l2: 9.42957]
+[lambda_l1: 2.74528]
+[lambda_l2: 7.56018]
 [linear_lambda: 0]
 [min_gain_to_split: 0]
 [drop_rate: 0.1]
