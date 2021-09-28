@@ -7,23 +7,23 @@ max_feature_idx=15
 objective=regression
 feature_names=player1_H2H player1_career_surface_lose player1_career_surface_win player1_career_total_lose player1_career_total_win player1_height player1_odds player1_roi player2_H2H player2_career_surface_lose player2_career_surface_win player2_career_total_lose player2_career_total_win player2_height player2_odds player2_roi
 feature_infos=[0:6] [0:181] [0:352] [26:451] [89:684] [157:186] [1.0600000000000001:8.3300000000000001] [-12.210000000000001:17.18] [0:5] [4:246] [4:377] [30:443] [58:605] [152:184] [1.1000000000000001:11.119999999999999] [-13.24:10.390000000000001]
-tree_sizes=308 294 309 311 294 294 312 311 297
+tree_sizes=297 313
 
 Tree=0
 num_leaves=2
 num_cat=0
-split_feature=6
-split_gain=1.49779
-threshold=1.7550000000000001
+split_feature=14
+split_gain=0.382343
+threshold=1.885
 decision_type=2
 left_child=-1
 right_child=-2
-leaf_value=1.4383621669756099 1.4637492296482606
-leaf_weight=28 46
-leaf_count=28 46
+leaf_value=1.4568000688577329 1.4464418277157876
+leaf_weight=38 39
+leaf_count=38 39
 internal_value=1.44776
 internal_weight=0
-internal_count=74
+internal_count=77
 is_linear=0
 shrinkage=1
 
@@ -31,151 +31,18 @@ shrinkage=1
 Tree=1
 num_leaves=2
 num_cat=0
-split_feature=11
-split_gain=0.00841204
-threshold=257.50000000000006
-decision_type=2
-left_child=-1
-right_child=-2
-leaf_value=0.0012237791107304627 0
-leaf_weight=54 20
-leaf_count=54 20
-internal_value=0
-internal_weight=0
-internal_count=74
-is_linear=0
-shrinkage=0.1
-
-
-Tree=2
-num_leaves=2
-num_cat=0
 split_feature=6
-split_gain=0.557932
-threshold=1.7850000000000004
+split_gain=0.240098
+threshold=1.9850000000000001
 decision_type=2
 left_child=-1
 right_child=-2
-leaf_value=-0.012170897068768579 0.00546573264603358
-leaf_weight=28 35
-leaf_count=28 35
+leaf_value=-0.00026107553823766694 0.0071579003780658547
+leaf_weight=38 39
+leaf_count=38 39
 internal_value=0
 internal_weight=0
-internal_count=63
-is_linear=0
-shrinkage=0.1
-
-
-Tree=3
-num_leaves=2
-num_cat=0
-split_feature=6
-split_gain=0.458901
-threshold=1.7850000000000004
-decision_type=2
-left_child=-1
-right_child=-2
-leaf_value=-0.011041302240840843 0.0049510540065305746
-leaf_weight=28 35
-leaf_count=28 35
-internal_value=0
-internal_weight=0
-internal_count=63
-is_linear=0
-shrinkage=0.1
-
-
-Tree=4
-num_leaves=2
-num_cat=0
-split_feature=6
-split_gain=0.00951748
-threshold=1.7000000000000002
-decision_type=2
-left_child=-1
-right_child=-2
-leaf_value=-0.0018063488714805511 0
-leaf_weight=27 36
-leaf_count=27 36
-internal_value=0
-internal_weight=0
-internal_count=63
-is_linear=0
-shrinkage=0.1
-
-
-Tree=5
-num_leaves=2
-num_cat=0
-split_feature=6
-split_gain=0.00783706
-threshold=1.7000000000000002
-decision_type=2
-left_child=-1
-right_child=-2
-leaf_value=-0.0016391447780209579 0
-leaf_weight=27 36
-leaf_count=27 36
-internal_value=0
-internal_weight=0
-internal_count=63
-is_linear=0
-shrinkage=0.1
-
-
-Tree=6
-num_leaves=2
-num_cat=0
-split_feature=6
-split_gain=0.249375
-threshold=1.7000000000000002
-decision_type=2
-left_child=-1
-right_child=-2
-leaf_value=-0.0031076125026115462 0.0069076491973280689
-leaf_weight=23 45
-leaf_count=23 45
-internal_value=0
-internal_weight=0
-internal_count=68
-is_linear=0
-shrinkage=0.1
-
-
-Tree=7
-num_leaves=2
-num_cat=0
-split_feature=6
-split_gain=0.20424
-threshold=1.7000000000000002
-decision_type=2
-left_child=-1
-right_child=-2
-leaf_value=-0.0028236301646391636 0.0062486460807492988
-leaf_weight=23 45
-leaf_count=23 45
-internal_value=0
-internal_weight=0
-internal_count=68
-is_linear=0
-shrinkage=0.1
-
-
-Tree=8
-num_leaves=2
-num_cat=0
-split_feature=14
-split_gain=0.000301639
-threshold=1.5500000000000003
-decision_type=2
-left_child=-1
-right_child=-2
-leaf_value=0 -0.00026433762286849638
-leaf_weight=19 41
-leaf_count=19 41
-internal_value=0
-internal_weight=0
-internal_count=60
+internal_count=77
 is_linear=0
 shrinkage=0.1
 
@@ -183,14 +50,13 @@ shrinkage=0.1
 end of trees
 
 feature_importances:
-player1_odds=7
-player2_career_total_lose=1
+player1_odds=1
 player2_odds=1
 
 parameters:
 [boosting: gbdt]
 [objective: regression]
-[metric: l1,l2]
+[metric: l2,l1]
 [tree_learner: serial]
 [device_type: cpu]
 [linear_tree: 0]
@@ -198,21 +64,21 @@ parameters:
 [valid: ]
 [num_iterations: 2000]
 [learning_rate: 0.1]
-[num_leaves: 143]
+[num_leaves: 170]
 [num_threads: 0]
 [deterministic: 0]
 [force_col_wise: 0]
 [force_row_wise: 0]
 [histogram_pool_size: -1]
 [max_depth: -1]
-[min_data_in_leaf: 19]
+[min_data_in_leaf: 38]
 [min_sum_hessian_in_leaf: 0.001]
-[bagging_fraction: 0.491555]
+[bagging_fraction: 0.525936]
 [pos_bagging_fraction: 1]
 [neg_bagging_fraction: 1]
 [bagging_freq: 2]
 [bagging_seed: 3]
-[feature_fraction: 0.500081]
+[feature_fraction: 0.547153]
 [feature_fraction_bynode: 1]
 [feature_fraction_seed: 2]
 [extra_trees: 0]
@@ -220,8 +86,8 @@ parameters:
 [early_stopping_round: 7]
 [first_metric_only: 0]
 [max_delta_step: 0]
-[lambda_l1: 5.70174]
-[lambda_l2: 2.16881]
+[lambda_l1: 5.84522]
+[lambda_l2: 7.80061]
 [linear_lambda: 0]
 [min_gain_to_split: 0]
 [drop_rate: 0.1]
