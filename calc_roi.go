@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -41,13 +42,16 @@ func calc_roi(url string) {
 
 	balance := 1.0
 
-	doc.Find("#matches-2021-1-data tbody tr").Each(func(i int, s *goquery.Selection) {
+	doc.Find("#matches-2021-1-data tbody tr").EachWithBreak(func(i int, s *goquery.Selection) bool {
+		if strings.Contains(s.Find("span").First().Text(), "Futures") {
+			return false
+		}
 		if s.HasClass("head") {
-			return
+			return true
 		}
 		odds, err := strconv.ParseFloat(s.Find("td.course").First().Text(), 64)
 		if err != nil {
-			return
+			return true
 		}
 
 		balance -= 1
@@ -55,6 +59,8 @@ func calc_roi(url string) {
 		if win {
 			balance += odds
 		}
+
+		return true
 
 	})
 	fmt.Printf("%f\n", balance)
