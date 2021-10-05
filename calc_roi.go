@@ -87,6 +87,9 @@ func main() {
 		scanner.Scan()
 		// url := os.Args[1]
 		url := scanner.Text()
+		if !strings.Contains(url, "https") {
+			continue
+		}
 		Scrape(url)
 	}
 }
