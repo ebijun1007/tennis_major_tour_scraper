@@ -14,6 +14,10 @@ class PlayersExplorer(scrapy.Spider):
         "https://www.tennisexplorer.com/ranking/atp-men/?page=2",
         "https://www.tennisexplorer.com/ranking/atp-men/?page=3",
         "https://www.tennisexplorer.com/ranking/atp-men/?page=4",
+        "https://www.tennisexplorer.com/ranking/wta-women/",
+        "https://www.tennisexplorer.com/ranking/wta-women/?page=2",
+        "https://www.tennisexplorer.com/ranking/wta-women/?page=3",
+        "https://www.tennisexplorer.com/ranking/wta-women/?page=4",
     ]
     CSV_FILE_NAME = "./data/roi.csv"
 
