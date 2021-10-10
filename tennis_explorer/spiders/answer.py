@@ -51,6 +51,8 @@ class AnswerExplorer(scrapy.Spider):
         else:
             data = data.assign(prediction_roi=-1)
 
+        print(data)
+
         with open(self.ANSWER_FILE, 'a', newline='') as csvfile:
             if csvfile.tell() == 0:
                 data.to_csv(self.ANSWER_FILE, mode='w',
