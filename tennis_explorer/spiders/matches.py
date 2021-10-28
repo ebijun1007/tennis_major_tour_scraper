@@ -61,8 +61,10 @@ class MatchesExplorer(scrapy.Spider):
             filter(('\xa0').__ne__, x)).index('Lower level tournaments')
         if(lower_level_tournaments_index == 0):
             return []
+        # match_list = list(filter(lambda name: name not in ['\xa0'], table.css(
+        #     'td a::text').getall()))[0:lower_level_tournaments_index-1]
         match_list = list(filter(lambda name: name not in ['\xa0'], table.css(
-            'td a::text').getall()))[0:lower_level_tournaments_index-1]
+            'td a::text').getall()))
         self.crawler.stats.set_value('match_list', match_list)
         return list(filter(lambda name: name not in ['Davis Cup'], match_list))
 

@@ -130,27 +130,6 @@ if __name__ == "__main__":
 
         print("=======================================================================================")
         print(f"tour_type: {tour_type}")
-        print(f'good: {good}. bad: {bad}. win_rate: {good / (good + bad)}')
-        print(f'virtual balance: {round(balance, 2)}')
-        print(f'earnings per match: {round(balance, 2) / (good + bad)}')
-        print(f'total prediction roi: {round(roi, 2)}')
-
-        print(
-            f'1.1以下もしくは1.9以上: {round(very_good_preedictions_roi, 2)} {len(very_good_preedictions)}試合 / {len(df_org)}試合中')
-        print(
-            f'1.2以下もしくは1.8以上: {round(good_preedictions_roi, 2)} {len(good_preedictions)}試合 / {len(df_org)}試合中')
-        print(
-            f'1.3以下もしくは1.7以上: {round(normal_preedictions_roi, 2)} {len(normal_preedictions)}試合 / {len(df_org)}試合中')
-        print(
-            f'1.4以下もしくは1.6以上: {round(bad_preedictions_roi, 2)} {len(bad_preedictions)}試合 / {len(df_org)}試合中')
-
-        round_list = [
-            "1. round", "2. round",
-            "round of 16", "quarterfinal", "semifinal", "final"
-        ]
-        for r in round_list:
-            roi = df_org.loc[df_org['round'] == r]['prediction_roi'].sum()
-            print(f'{r} summary is: {round(roi, 2)}')
 
         # 年間ROIが高い選手に賭け続けた場合
         higher_roi_sum = 0
@@ -182,7 +161,7 @@ if __name__ == "__main__":
             if winner == good_roi_player:
                 goor_roi_sum += float(row[f'player{good_roi_player}_odds'])
 
-        print(f"good_roi summary is: {round(goor_roi_sum, 2)}")
+        print(f"good_roi(over 10) summary is: {round(goor_roi_sum, 2)}")
 
     print("=======================================================================================")
     jst = timezone(timedelta(hours=9), 'JST')
@@ -190,15 +169,15 @@ if __name__ == "__main__":
     try:
         yesterday_result_df = pd.read_csv(
             f'./data/{yesterday.year:04}-{yesterday.month:02}-{yesterday.day:02}.csv')
-        yesterday_win = len(
-            yesterday_result_df.loc[yesterday_result_df['prediction_roi'] > 0].index)
-        yesterday_lose = len(
-            yesterday_result_df.loc[yesterday_result_df['prediction_roi'] < 0].index)
-        yesterday_roi = round(yesterday_result_df["prediction_roi"].sum(), 2)
-    except:
-        pass
-    try:
-        print(
-            f'yesterday results: win:{yesterday_win} lose:{yesterday_lose} win_rate: {round(yesterday_win / (yesterday_win + yesterday_lose) ,2)} roi:{yesterday_roi}')
-    except:
-        pass
+        df_list = {"total": df_org, "yesterday": yesterday_result_df}
+        for key, df in df_list.items():
+            win = len(
+                df.loc[df['prediction_roi'] > 0].index)
+            lose = len(
+                df.loc[df['prediction_roi'] < 0].index)
+            roi = round(
+                df["prediction_roi"].sum(), 2)
+            print(
+                f'{key} results: win:{win} lose:{lose} win_rate: {round(win / (win + lose) ,2)} roi:{roi}')
+    except Exception as e:
+        print(e)
