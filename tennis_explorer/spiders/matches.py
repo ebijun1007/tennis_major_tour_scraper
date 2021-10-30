@@ -86,10 +86,10 @@ class MatchesExplorer(scrapy.Spider):
     def parse_detail(self, response):
         match_detail = response.xpath(
             '//*[@id="center"]/div[1]/text()[2]').get()
-        if "Qualification" in match_detail:
-            return
-        if "qualification" in match_detail:
-            return
+        # if "Qualification" in match_detail:
+        #     return
+        # if "qualification" in match_detail:
+        #     return
         self.crawler.stats.inc_value('count_load_parse_detail')
         player_profile_urls = response.css('th.plName a::attr(href)').getall()
         title = response.css("#center > div:nth-child(2) > a ::text").get()
