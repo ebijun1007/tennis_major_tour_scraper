@@ -166,18 +166,17 @@ if __name__ == "__main__":
     print("=======================================================================================")
     jst = timezone(timedelta(hours=9), 'JST')
     yesterday = datetime.now(jst) - timedelta(days=1)
+    print(yesterday)
     try:
         yesterday_result_df = pd.read_csv(
             f'./data/{yesterday.year:04}-{yesterday.month:02}-{yesterday.day:02}.csv')
-        df_list = {"total": df_org, "yesterday": yesterday_result_df}
-        for key, df in df_list.items():
-            win = len(
-                df.loc[df['prediction_roi'] > 0].index)
-            lose = len(
-                df.loc[df['prediction_roi'] < 0].index)
-            roi = round(
-                df["prediction_roi"].sum(), 2)
-            print(
-                f'{key} results: win:{win} lose:{lose} win_rate: {round(win / (win + lose) ,2)} roi:{roi}')
+        win = len(
+            yesterday_result_df.loc[yesterday_result_df['prediction_roi'] > 0].index)
+        lose = len(
+            yesterday_result_df.loc[yesterday_result_df['prediction_roi'] < 0].index)
+        roi = round(
+            yesterday_result_df["prediction_roi"].sum(), 2)
+        print(
+            f'yesterday results: win:{win} lose:{lose} win_rate: {round(win / (win + lose) ,2)} roi:{roi}')
     except Exception as e:
         print(e)

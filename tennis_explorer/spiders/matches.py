@@ -285,6 +285,27 @@ class MatchesExplorer(scrapy.Spider):
         return round(balance, 2)
 
     def predict(self, match_type, data):
+        if float(data["player1_roi"]) > 10 and float(data["player2_roi"]) > 10:
+            if float(data["player1_roi"]) > float(data["player2_roi"]):
+                return 1
+            return 2
+        elif float(data["player1_roi"]) > 10:
+            return 1
+        elif float(data["player2_roi"]) > 10:
+            return 2
+
+        # ROIの差が10以上ある場合、ROIの高い方の選手を返す
+        if (abs(float(data["player1_roi"]) - float(data["player2_roi"])) > 10):
+            if float(data["player1_roi"]) > float(data["player2_roi"]):
+                return 1
+            return 2
+
+        # オッズの差が1以上ある場合、オッズの低い選手を返す
+        if (abs(float(data["player1_odds"]) - float(data["player2_odds"])) > 1):
+            if float(data["player1_odds"]) < float(data["player2_odds"]):
+                return 1
+            return 2
+
         if match_type == "atp":
             prediction_model = self.atp_prediction_model
         elif match_type == "wta":
