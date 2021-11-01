@@ -180,13 +180,13 @@ class MatchesExplorer(scrapy.Spider):
             with open("unmatched_name_list.json", 'r') as f:
                 data = json.load(f)
             try:
-                data[player]
-                row = df[df['Player'].str.contains(
-                    ".".join(data[player].split(' ')))]
-                elo = float(row.iloc[0]['Elo'])
-                elo_surface = float(
-                    row.iloc[0][f'{surface.lower()[0]}Elo'])
-                return round((elo + elo_surface) / 2)
+                if data[player]:
+                    row = df[df['Player'].str.contains(
+                        ".".join(data[player].split(' ')))]
+                    elo = float(row.iloc[0]['Elo'])
+                    elo_surface = float(
+                        row.iloc[0][f'{surface.lower()[0]}Elo'])
+                    return round((elo + elo_surface) / 2)
             except:
                 data[player] = ""
             with open("unmatched_name_list.json", 'w') as f:
