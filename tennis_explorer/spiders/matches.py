@@ -300,6 +300,13 @@ class MatchesExplorer(scrapy.Spider):
                 return 1
             return 2
 
+        # オッズが4以上の場合、逆張りとして４以上の選手を返す。ただしトップ20の選手は除く
+        if not ((float(data["player1_current_rank"]) >= 20) or (float(data["player2_current_rank"]) >= 20)):
+            if (abs(float(data["player1_odds"]) > 4)):
+                return 1
+            if (abs(float(data["player2_odds"]) > 4)):
+                return 2
+
         # オッズの差が1以上ある場合、オッズの低い選手を返す
         if (abs(float(data["player1_odds"]) - float(data["player2_odds"])) > 1):
             if float(data["player1_odds"]) < float(data["player2_odds"]):
