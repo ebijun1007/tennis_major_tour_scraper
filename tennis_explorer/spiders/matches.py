@@ -290,13 +290,13 @@ class MatchesExplorer(scrapy.Spider):
         return round(balance, 2)
 
     def predict(self, match_type, data):
-        if float(data["player1_roi"]) > 10 and float(data["player2_roi"]) > 10:
-            if float(data["player1_roi"]) > float(data["player2_roi"]):
+        if float(data["player1_roi"]) >= 10 and float(data["player2_roi"]) >= 10:
+            if float(data["player1_roi"]) >= float(data["player2_roi"]):
                 return 1
             return 2
-        elif float(data["player1_roi"]) > 10:
+        elif float(data["player1_roi"]) >= 10:
             return 1
-        elif float(data["player2_roi"]) > 10:
+        elif float(data["player2_roi"]) >= 10:
             return 2
 
         # ROIの差が10以上ある場合、ROIの高い方の選手を返す
