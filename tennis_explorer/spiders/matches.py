@@ -117,7 +117,7 @@ class MatchesExplorer(scrapy.Spider):
         player2["elo"] = self.get_surface_elo(player2["name"], surface)
         player2["odds"] = odds[1]
         player2["latest_win"] = len(response.css('table.result.mutual')[
-            0].css('td.icon-result.win'))
+            1].css('td.icon-result.win'))
         player1_data = {f"player1_{key}": value for (
             key, value) in player1.items()}
         player2_data = {f"player2_{key}": value for (
