@@ -107,12 +107,17 @@ class MatchesExplorer(scrapy.Spider):
             ":")[-1].split("-")[0])[0] if len(H2H.split(":")) == 2 else 0
         player1["elo"] = self.get_surface_elo(player1["name"], surface)
         player1["odds"] = odds[0]
+        player1["latest_win"] = len(response.css('table.result.mutual')[
+            0].css('td.icon-result.win'))
+
         player2 = self.parse_player_profile(
             response.urljoin(player_profile_urls[1]), surface)
         player2["H2H"] = get_integer(H2H.split(
             ":")[-1].split("-")[1])[0] if len(H2H.split(":")) == 2 else 0
         player2["elo"] = self.get_surface_elo(player2["name"], surface)
         player2["odds"] = odds[1]
+        player2["latest_win"] = len(response.css('table.result.mutual')[
+            0].css('td.icon-result.win'))
         player1_data = {f"player1_{key}": value for (
             key, value) in player1.items()}
         player2_data = {f"player2_{key}": value for (
