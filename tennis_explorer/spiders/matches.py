@@ -292,8 +292,8 @@ class MatchesExplorer(scrapy.Spider):
     def predict(self, match_type, data):
         if float(data["player1_roi"]) >= 10 and float(data["player2_roi"]) >= 10:
             if float(data["player1_roi"]) >= float(data["player2_roi"]):
-                return 1
-            return 2
+                return 1.4
+            return 1.6
         elif float(data["player1_roi"]) >= 10:
             return 1
         elif float(data["player2_roi"]) >= 10:
@@ -308,15 +308,15 @@ class MatchesExplorer(scrapy.Spider):
         # オッズが4以上の場合、逆張りとして４以上の選手を返す。ただしトップ20の選手は除く
         if not ((float(data["player1_current_rank"]) >= 20) or (float(data["player2_current_rank"]) >= 20)):
             if (abs(float(data["player1_odds"]) > 4)):
-                return 1
+                return 1.4
             if (abs(float(data["player2_odds"]) > 4)):
-                return 2
+                return 1.6
 
         # オッズの差が1以上ある場合、オッズの低い選手を返す
         if (abs(float(data["player1_odds"]) - float(data["player2_odds"])) > 1):
             if float(data["player1_odds"]) < float(data["player2_odds"]):
-                return 1
-            return 2
+                return 1.2
+            return 1.8
 
         if match_type == "atp":
             prediction_model = self.atp_prediction_model
