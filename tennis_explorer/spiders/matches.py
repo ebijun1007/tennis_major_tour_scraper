@@ -61,10 +61,10 @@ class MatchesExplorer(scrapy.Spider):
             filter(('\xa0').__ne__, x)).index('Lower level tournaments')
         if(lower_level_tournaments_index == 0):
             return []
-        # match_list = list(filter(lambda name: name not in ['\xa0'], table.css(
-        #     'td a::text').getall()))[0:lower_level_tournaments_index-1]
         match_list = list(filter(lambda name: name not in ['\xa0'], table.css(
-            'td a::text').getall()))
+            'td a::text').getall()))[0:lower_level_tournaments_index-1]
+        # match_list = list(filter(lambda name: name not in ['\xa0'], table.css(
+        #     'td a::text').getall()))
         self.crawler.stats.set_value('match_list', match_list)
         return list(filter(lambda name: name not in ['Davis Cup'], match_list))
 
@@ -86,10 +86,10 @@ class MatchesExplorer(scrapy.Spider):
     def parse_detail(self, response):
         match_detail = response.xpath(
             '//*[@id="center"]/div[1]/text()[2]').get()
-        # if "Qualification" in match_detail:
-        #     return
-        # if "qualification" in match_detail:
-        #     return
+        if "Qualification" in match_detail:
+            return
+        if "qualification" in match_detail:
+            return
         self.crawler.stats.inc_value('count_load_parse_detail')
         player_profile_urls = response.css('th.plName a::attr(href)').getall()
         title = response.css("#center > div:nth-child(2) > a ::text").get()
