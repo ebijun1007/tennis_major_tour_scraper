@@ -12,6 +12,25 @@ import optuna
 from contextlib import contextmanager
 
 
+def calc_history():
+    import os
+    import pandas as pd
+    for csv_data in os.listdir("data"):
+        try:
+            df = pd.read_csv(f'./data/{csv_data}')
+            win = len(
+                df.loc[df['prediction_roi'] > 0].index)
+            lose = len(
+                df.loc[df['prediction_roi'] < 0].index)
+            roi = round(
+                df["prediction_roi"].sum(), 2)
+            print(
+                f'{csv_data}: win:{win} lose:{lose} win_rate: {round(win / (win + lose) ,2)} roi:{roi}')
+        except Exception as e:
+            print(e)
+            continue
+
+
 def objective(trial, X_train, X_test, y_train, y_test):
     optuna.logging.set_verbosity(optuna.logging.WARNING)
     dtrain = lgb.Dataset(X_train, label=y_train)
@@ -129,6 +148,9 @@ if __name__ == "__main__":
                 bad += 1
 
         print("=======================================================================================")
+        calc_history()
+        print("=======================================================================================")
+
         print(f"tour_type: {tour_type}")
 
         # 年間ROIが高い選手に賭け続けた場合
@@ -162,21 +184,3 @@ if __name__ == "__main__":
                 goor_roi_sum += float(row[f'player{good_roi_player}_odds'])
 
         print(f"good_roi(over 10) summary is: {round(goor_roi_sum, 2)}")
-
-    print("=======================================================================================")
-    jst = timezone(timedelta(hours=9), 'JST')
-    yesterday = datetime.now(jst) - timedelta(days=1)
-    print(yesterday)
-    try:
-        yesterday_result_df = pd.read_csv(
-            f'./data/{yesterday.year:04}-{yesterday.month:02}-{yesterday.day:02}.csv')
-        win = len(
-            yesterday_result_df.loc[yesterday_result_df['prediction_roi'] > 0].index)
-        lose = len(
-            yesterday_result_df.loc[yesterday_result_df['prediction_roi'] < 0].index)
-        roi = round(
-            yesterday_result_df["prediction_roi"].sum(), 2)
-        print(
-            f'yesterday results: win:{win} lose:{lose} win_rate: {round(win / (win + lose) ,2)} roi:{roi}')
-    except Exception as e:
-        print(e)
