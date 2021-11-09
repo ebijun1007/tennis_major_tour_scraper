@@ -1,5 +1,6 @@
 from explanatory_variables import EXPLANATORY_VARIABLES
 import pandas as pd
+import os
 import statsmodels.api as sm
 from sklearn.model_selection import train_test_split
 import numpy as np
@@ -8,13 +9,13 @@ import lightgbm as lgb  # LightGBM
 import matplotlib.pyplot as plt
 import sklearn.metrics
 import optuna
-
+import matplotlib.pyplot as plt
 from contextlib import contextmanager
 
 
 def calc_history():
-    import os
-    import pandas as pd
+    plot_x = []
+    plot_y = []
     for csv_data in os.listdir("data"):
         try:
             df = pd.read_csv(f'./data/{csv_data}')
@@ -26,9 +27,17 @@ def calc_history():
                 df["prediction_roi"].sum(), 2)
             print(
                 f'{csv_data}: win:{win} lose:{lose} win_rate: {round(win / (win + lose) ,2)} roi:{roi}')
+            plot_x.append(csv_data)
+            plot_y.append(roi)
         except Exception as e:
             print(e)
             continue
+
+    fig = plt.figure()
+    ax = fig.add_subplot(1, 1, 1)
+    ax.plot(plot_x, plot_y)
+    print(sum(plot_y))
+    plt.savefig("roi")
 
 
 def objective(trial, X_train, X_test, y_train, y_test):
@@ -62,6 +71,7 @@ def objective(trial, X_train, X_test, y_train, y_test):
 
 
 if __name__ == "__main__":
+    calc_history()
     for tour_type in ["atp", "wta", "merged"]:
         df_org = pd.read_csv(f"{tour_type}.csv")
         roi = df_org["prediction_roi"].sum()
@@ -147,8 +157,6 @@ if __name__ == "__main__":
             else:
                 bad += 1
 
-        print("=======================================================================================")
-        calc_history()
         print("=======================================================================================")
 
         print(f"tour_type: {tour_type}")
