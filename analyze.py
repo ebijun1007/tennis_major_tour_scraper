@@ -16,7 +16,7 @@ from contextlib import contextmanager
 def calc_history():
     plot_x = []
     plot_y = []
-    for csv_data in os.listdir("data"):
+    for csv_data in sorted(os.listdir("data")):
         try:
             df = pd.read_csv(f'./data/{csv_data}')
             win = len(
