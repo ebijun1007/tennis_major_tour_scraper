@@ -314,10 +314,10 @@ class MatchesExplorer(scrapy.Spider):
                 return 1.6
 
         # オッズの差が1以上ある場合、オッズの低い選手を返す
-        if (abs(float(data["player1_odds"]) - float(data["player2_odds"])) > 1):
-            if float(data["player1_odds"]) < float(data["player2_odds"]):
-                return 1.2
-            return 1.8
+        # if (abs(float(data["player1_odds"]) - float(data["player2_odds"])) > 1):
+        #     if float(data["player1_odds"]) < float(data["player2_odds"]):
+        #         return 1.2
+        #     return 1.8
 
         if match_type == "atp":
             prediction_model = self.atp_prediction_model
