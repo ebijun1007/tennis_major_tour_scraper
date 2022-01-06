@@ -274,20 +274,23 @@ class MatchesExplorer(scrapy.Spider):
         }
 
     def calc_roi(self, table):
-        balance = 1
-        for tr in table.find_all('tr'):
-            if "Result" in tr.text:
-                continue
-            win = "notU" in str(tr.find('a'))
-            try:
-                odds = float(tr.find('td', {"class": "course"}).text)
-            except:
-                odds = 1.0
-            if(win):
-                balance += float(odds - 1)
-            else:
-                balance -= 1
-        return round(balance, 2)
+        try:
+            balance = 1
+            for tr in table.find_all('tr'):
+                if "Result" in tr.text:
+                    continue
+                win = "notU" in str(tr.find('a'))
+                try:
+                    odds = float(tr.find('td', {"class": "course"}).text)
+                except:
+                    odds = 1.0
+                if(win):
+                    balance += float(odds - 1)
+                else:
+                    balance -= 1
+            return round(balance, 2)
+        except:
+            return 0
 
     def predict(self, match_type, data):
         if float(data["player1_roi"]) >= 10 and float(data["player2_roi"]) >= 10:
