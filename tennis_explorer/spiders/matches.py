@@ -252,7 +252,7 @@ class MatchesExplorer(scrapy.Spider):
         career_surface_lose = career_surface_wl.split('/')[1]
 
         roi = self.calc_roi(
-            soup.find('div', {'id': f'matches-2021-1-data'}))
+            soup.find('div', {'id': f'matches-{self.now.year}-1-data'}))
 
         return{
             "name": name,

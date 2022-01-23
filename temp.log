@@ -1068,3 +1068,648 @@ AttributeError: 'NoneType' object has no attribute 'find_all'
  'scheduler/enqueued/memory': 9,
  'start_time': datetime.datetime(2021, 10, 10, 14, 59, 35, 44559)}
 2021-10-10 14:59:37 [scrapy.core.engine] INFO: Spider closed (finished)
+2022-01-23 09:03:05 [scrapy.utils.log] INFO: Scrapy 2.5.1 started (bot: tennis_explorer)
+2022-01-23 09:03:05 [scrapy.utils.log] INFO: Versions: lxml 4.7.1.0, libxml2 2.9.12, cssselect 1.1.0, parsel 1.6.0, w3lib 1.22.0, Twisted 21.7.0, Python 3.8.12 (default, Dec 21 2021, 11:15:53) - [GCC 8.3.0], pyOpenSSL 21.0.0 (OpenSSL 1.1.1m  14 Dec 2021), cryptography 36.0.1, Platform Linux-5.10.76-linuxkit-x86_64-with-glibc2.2.5
+2022-01-23 09:03:05 [scrapy.utils.log] DEBUG: Using reactor: twisted.internet.epollreactor.EPollReactor
+2022-01-23 09:03:05 [scrapy.crawler] INFO: Overridden settings:
+{'BOT_NAME': 'tennis_explorer',
+ 'DOWNLOAD_DELAY': 3,
+ 'LOG_FILE': 'temp.log',
+ 'NEWSPIDER_MODULE': 'tennis_explorer.spiders',
+ 'ROBOTSTXT_OBEY': True,
+ 'SPIDER_MODULES': ['tennis_explorer.spiders'],
+ 'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
+               'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 '
+               'Safari/537.36'}
+2022-01-23 09:03:05 [scrapy.extensions.telnet] INFO: Telnet Password: cba2dc321708c6dc
+2022-01-23 09:03:05 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.memusage.MemoryUsage',
+ 'scrapy.extensions.logstats.LogStats']
+2022-01-23 09:03:05 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.robotstxt.RobotsTxtMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2022-01-23 09:03:05 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2022-01-23 09:03:05 [scrapy.middleware] INFO: Enabled item pipelines:
+[]
+2022-01-23 09:03:05 [scrapy.core.engine] INFO: Spider opened
+2022-01-23 09:03:05 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2022-01-23 09:03:05 [scrapy.extensions.telnet] INFO: Telnet console listening on 127.0.0.1:6023
+2022-01-23 09:03:06 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/robots.txt> (referer: None)
+2022-01-23 09:03:06 [protego] DEBUG: Rule at line 1 without any user agent to enforce it on.
+2022-01-23 09:03:11 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/> (referer: None)
+2022-01-23 09:03:14 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/matches/?type=atp-single&timezone=+9> (referer: https://www.tennisexplorer.com/)
+2022-01-23 09:03:18 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/next/?type=wta-single&year=2022&month=01&day=24&timezone=+9> (referer: https://www.tennisexplorer.com/)
+2022-01-23 09:03:22 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/next/?type=atp-single&year=2022&month=01&day=24&timezone=+9> (referer: https://www.tennisexplorer.com/)
+2022-01-23 09:03:26 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/matches/?type=wta-single&timezone=+9> (referer: https://www.tennisexplorer.com/)
+2022-01-23 09:03:33 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/match-detail/?id=2024160> (referer: https://www.tennisexplorer.com/matches/?type=atp-single&timezone=+9)
+2022-01-23 09:03:33 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:03:34 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/kecmanovic HTTP/1.1" 301 212
+2022-01-23 09:03:35 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:03:35 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/kecmanovic/ HTTP/1.1" 301 162
+2022-01-23 09:03:35 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.tennisexplorer.com/match-detail/?id=2024160> (referer: https://www.tennisexplorer.com/matches/?type=atp-single&timezone=+9)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 449, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/lib/python3.8/http/client.py", line 1348, in getresponse
+    response.begin()
+  File "/usr/local/lib/python3.8/http/client.py", line 316, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/lib/python3.8/http/client.py", line 285, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/requests/adapters.py", line 440, in send
+    resp = conn.urlopen(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 785, in urlopen
+    retries = retries.increment(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/util/retry.py", line 550, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/usr/local/lib/python3.8/site-packages/urllib3/packages/six.py", line 769, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 449, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/lib/python3.8/http/client.py", line 1348, in getresponse
+    response.begin()
+  File "/usr/local/lib/python3.8/http/client.py", line 316, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/lib/python3.8/http/client.py", line 285, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/twisted/internet/defer.py", line 858, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+  File "/app/tennis_explorer/spiders/matches.py", line 104, in parse_detail
+    player1 = self.parse_player_profile(
+  File "/app/tennis_explorer/spiders/matches.py", line 212, in parse_player_profile
+    soup = BeautifulSoup(requests.get(url).content, "lxml")
+  File "/usr/local/lib/python3.8/site-packages/requests/api.py", line 75, in get
+    return request('get', url, params=params, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 529, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 667, in send
+    history = [resp for resp in gen]
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 667, in <listcomp>
+    history = [resp for resp in gen]
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 237, in resolve_redirects
+    resp = self.send(
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 645, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/adapters.py", line 501, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2022-01-23 09:03:37 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/match-detail/?id=2024174> (referer: https://www.tennisexplorer.com/matches/?type=atp-single&timezone=+9)
+2022-01-23 09:03:37 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:03:38 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/carreno-busta HTTP/1.1" 301 213
+2022-01-23 09:03:38 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:03:39 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/carreno-busta/ HTTP/1.1" 301 162
+2022-01-23 09:03:41 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/carreno-busta/ HTTP/1.1" 200 22711
+2022-01-23 09:03:41 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:03:41 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/atp.csv HTTP/1.1" 200 18181
+2022-01-23 09:03:41 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:03:42 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/wta.csv HTTP/1.1" 200 15504
+2022-01-23 09:03:42 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:03:43 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/berrettini-707ad HTTP/1.1" 301 217
+2022-01-23 09:03:43 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:03:44 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/berrettini-707ad/ HTTP/1.1" 301 162
+2022-01-23 09:03:44 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.tennisexplorer.com/match-detail/?id=2024174> (referer: https://www.tennisexplorer.com/matches/?type=atp-single&timezone=+9)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 449, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/lib/python3.8/http/client.py", line 1348, in getresponse
+    response.begin()
+  File "/usr/local/lib/python3.8/http/client.py", line 316, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/lib/python3.8/http/client.py", line 285, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/requests/adapters.py", line 440, in send
+    resp = conn.urlopen(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 785, in urlopen
+    retries = retries.increment(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/util/retry.py", line 550, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/usr/local/lib/python3.8/site-packages/urllib3/packages/six.py", line 769, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 449, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/lib/python3.8/http/client.py", line 1348, in getresponse
+    response.begin()
+  File "/usr/local/lib/python3.8/http/client.py", line 316, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/lib/python3.8/http/client.py", line 285, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/twisted/internet/defer.py", line 858, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+  File "/app/tennis_explorer/spiders/matches.py", line 113, in parse_detail
+    player2 = self.parse_player_profile(
+  File "/app/tennis_explorer/spiders/matches.py", line 212, in parse_player_profile
+    soup = BeautifulSoup(requests.get(url).content, "lxml")
+  File "/usr/local/lib/python3.8/site-packages/requests/api.py", line 75, in get
+    return request('get', url, params=params, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 529, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 667, in send
+    history = [resp for resp in gen]
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 667, in <listcomp>
+    history = [resp for resp in gen]
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 237, in resolve_redirects
+    resp = self.send(
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 645, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/adapters.py", line 501, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2022-01-23 09:03:44 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/match-detail/?id=2024312> (referer: https://www.tennisexplorer.com/next/?type=wta-single&year=2022&month=01&day=24&timezone=+9)
+2022-01-23 09:03:44 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:03:46 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/kanepi HTTP/1.1" 301 209
+2022-01-23 09:03:46 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:03:47 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/kanepi/ HTTP/1.1" 301 162
+2022-01-23 09:03:48 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.tennisexplorer.com/match-detail/?id=2024312> (referer: https://www.tennisexplorer.com/next/?type=wta-single&year=2022&month=01&day=24&timezone=+9)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 449, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/lib/python3.8/http/client.py", line 1348, in getresponse
+    response.begin()
+  File "/usr/local/lib/python3.8/http/client.py", line 316, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/lib/python3.8/http/client.py", line 285, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/requests/adapters.py", line 440, in send
+    resp = conn.urlopen(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 785, in urlopen
+    retries = retries.increment(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/util/retry.py", line 550, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/usr/local/lib/python3.8/site-packages/urllib3/packages/six.py", line 769, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 449, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/lib/python3.8/http/client.py", line 1348, in getresponse
+    response.begin()
+  File "/usr/local/lib/python3.8/http/client.py", line 316, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/lib/python3.8/http/client.py", line 285, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/twisted/internet/defer.py", line 858, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+  File "/app/tennis_explorer/spiders/matches.py", line 104, in parse_detail
+    player1 = self.parse_player_profile(
+  File "/app/tennis_explorer/spiders/matches.py", line 212, in parse_player_profile
+    soup = BeautifulSoup(requests.get(url).content, "lxml")
+  File "/usr/local/lib/python3.8/site-packages/requests/api.py", line 75, in get
+    return request('get', url, params=params, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 529, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 667, in send
+    history = [resp for resp in gen]
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 667, in <listcomp>
+    history = [resp for resp in gen]
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 237, in resolve_redirects
+    resp = self.send(
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 645, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/adapters.py", line 501, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2022-01-23 09:03:49 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/match-detail/?id=2024390> (referer: https://www.tennisexplorer.com/next/?type=wta-single&year=2022&month=01&day=24&timezone=+9)
+2022-01-23 09:03:49 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:03:51 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/swiatek HTTP/1.1" 301 209
+2022-01-23 09:03:51 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:03:51 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/swiatek/ HTTP/1.1" 301 162
+2022-01-23 09:03:53 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.tennisexplorer.com/match-detail/?id=2024390> (referer: https://www.tennisexplorer.com/next/?type=wta-single&year=2022&month=01&day=24&timezone=+9)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 449, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/lib/python3.8/http/client.py", line 1348, in getresponse
+    response.begin()
+  File "/usr/local/lib/python3.8/http/client.py", line 316, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/lib/python3.8/http/client.py", line 285, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/requests/adapters.py", line 440, in send
+    resp = conn.urlopen(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 785, in urlopen
+    retries = retries.increment(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/util/retry.py", line 550, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/usr/local/lib/python3.8/site-packages/urllib3/packages/six.py", line 769, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 449, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/lib/python3.8/http/client.py", line 1348, in getresponse
+    response.begin()
+  File "/usr/local/lib/python3.8/http/client.py", line 316, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/lib/python3.8/http/client.py", line 285, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/twisted/internet/defer.py", line 858, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+  File "/app/tennis_explorer/spiders/matches.py", line 104, in parse_detail
+    player1 = self.parse_player_profile(
+  File "/app/tennis_explorer/spiders/matches.py", line 212, in parse_player_profile
+    soup = BeautifulSoup(requests.get(url).content, "lxml")
+  File "/usr/local/lib/python3.8/site-packages/requests/api.py", line 75, in get
+    return request('get', url, params=params, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 529, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 667, in send
+    history = [resp for resp in gen]
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 667, in <listcomp>
+    history = [resp for resp in gen]
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 237, in resolve_redirects
+    resp = self.send(
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 645, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/adapters.py", line 501, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2022-01-23 09:03:53 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/match-detail/?id=2024300> (referer: https://www.tennisexplorer.com/next/?type=wta-single&year=2022&month=01&day=24&timezone=+9)
+2022-01-23 09:03:53 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:03:54 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/halep HTTP/1.1" 301 205
+2022-01-23 09:03:54 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:03:55 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/halep/ HTTP/1.1" 301 162
+2022-01-23 09:03:55 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.tennisexplorer.com/match-detail/?id=2024300> (referer: https://www.tennisexplorer.com/next/?type=wta-single&year=2022&month=01&day=24&timezone=+9)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 449, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/lib/python3.8/http/client.py", line 1348, in getresponse
+    response.begin()
+  File "/usr/local/lib/python3.8/http/client.py", line 316, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/lib/python3.8/http/client.py", line 285, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/requests/adapters.py", line 440, in send
+    resp = conn.urlopen(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 785, in urlopen
+    retries = retries.increment(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/util/retry.py", line 550, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/usr/local/lib/python3.8/site-packages/urllib3/packages/six.py", line 769, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 449, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/lib/python3.8/http/client.py", line 1348, in getresponse
+    response.begin()
+  File "/usr/local/lib/python3.8/http/client.py", line 316, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/lib/python3.8/http/client.py", line 285, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/twisted/internet/defer.py", line 858, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+  File "/app/tennis_explorer/spiders/matches.py", line 104, in parse_detail
+    player1 = self.parse_player_profile(
+  File "/app/tennis_explorer/spiders/matches.py", line 212, in parse_player_profile
+    soup = BeautifulSoup(requests.get(url).content, "lxml")
+  File "/usr/local/lib/python3.8/site-packages/requests/api.py", line 75, in get
+    return request('get', url, params=params, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 529, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 667, in send
+    history = [resp for resp in gen]
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 667, in <listcomp>
+    history = [resp for resp in gen]
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 237, in resolve_redirects
+    resp = self.send(
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 645, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/adapters.py", line 501, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2022-01-23 09:03:57 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/match-detail/?id=2024308> (referer: https://www.tennisexplorer.com/next/?type=wta-single&year=2022&month=01&day=24&timezone=+9)
+2022-01-23 09:03:57 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:04:00 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/collins-f1bd8 HTTP/1.1" 301 215
+2022-01-23 09:04:00 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:04:01 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/collins-f1bd8/ HTTP/1.1" 301 162
+2022-01-23 09:04:01 [urllib3.connectionpool] DEBUG: Resetting dropped connection: www.tennisexplorer.com
+2022-01-23 09:04:03 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/collins-f1bd8/ HTTP/1.1" 200 21003
+2022-01-23 09:04:04 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:04 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/atp.csv HTTP/1.1" 200 18181
+2022-01-23 09:04:04 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:04 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/wta.csv HTTP/1.1" 200 15504
+2022-01-23 09:04:04 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:04:05 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/mertens-f8826 HTTP/1.1" 301 215
+2022-01-23 09:04:05 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:04:06 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/mertens-f8826/ HTTP/1.1" 301 162
+2022-01-23 09:04:07 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.tennisexplorer.com/match-detail/?id=2024308> (referer: https://www.tennisexplorer.com/next/?type=wta-single&year=2022&month=01&day=24&timezone=+9)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 449, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/lib/python3.8/http/client.py", line 1348, in getresponse
+    response.begin()
+  File "/usr/local/lib/python3.8/http/client.py", line 316, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/lib/python3.8/http/client.py", line 285, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/requests/adapters.py", line 440, in send
+    resp = conn.urlopen(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 785, in urlopen
+    retries = retries.increment(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/util/retry.py", line 550, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/usr/local/lib/python3.8/site-packages/urllib3/packages/six.py", line 769, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 703, in urlopen
+    httplib_response = self._make_request(
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 449, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/usr/local/lib/python3.8/site-packages/urllib3/connectionpool.py", line 444, in _make_request
+    httplib_response = conn.getresponse()
+  File "/usr/local/lib/python3.8/http/client.py", line 1348, in getresponse
+    response.begin()
+  File "/usr/local/lib/python3.8/http/client.py", line 316, in begin
+    version, status, reason = self._read_status()
+  File "/usr/local/lib/python3.8/http/client.py", line 285, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/site-packages/twisted/internet/defer.py", line 858, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+  File "/app/tennis_explorer/spiders/matches.py", line 113, in parse_detail
+    player2 = self.parse_player_profile(
+  File "/app/tennis_explorer/spiders/matches.py", line 212, in parse_player_profile
+    soup = BeautifulSoup(requests.get(url).content, "lxml")
+  File "/usr/local/lib/python3.8/site-packages/requests/api.py", line 75, in get
+    return request('get', url, params=params, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/api.py", line 61, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 529, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 667, in send
+    history = [resp for resp in gen]
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 667, in <listcomp>
+    history = [resp for resp in gen]
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 237, in resolve_redirects
+    resp = self.send(
+  File "/usr/local/lib/python3.8/site-packages/requests/sessions.py", line 645, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.8/site-packages/requests/adapters.py", line 501, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+2022-01-23 09:04:07 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/match-detail/?id=2024362> (referer: https://www.tennisexplorer.com/next/?type=atp-single&year=2022&month=01&day=24&timezone=+9)
+2022-01-23 09:04:07 [scrapy.extensions.logstats] INFO: Crawled 13 pages (at 13 pages/min), scraped 0 items (at 0 items/min)
+2022-01-23 09:04:07 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:04:08 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/cressy HTTP/1.1" 301 209
+2022-01-23 09:04:08 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:04:09 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/cressy/ HTTP/1.1" 301 162
+2022-01-23 09:04:09 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/cressy/ HTTP/1.1" 200 20320
+2022-01-23 09:04:09 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:10 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/atp.csv HTTP/1.1" 200 18181
+2022-01-23 09:04:10 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:10 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/wta.csv HTTP/1.1" 200 15504
+2022-01-23 09:04:10 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:04:10 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/medvedev-e0d2d HTTP/1.1" 301 213
+2022-01-23 09:04:10 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:04:11 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/medvedev-e0d2d/ HTTP/1.1" 301 162
+2022-01-23 09:04:11 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/medvedev-e0d2d/ HTTP/1.1" 200 22012
+2022-01-23 09:04:12 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:12 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/atp.csv HTTP/1.1" 200 18181
+2022-01-23 09:04:12 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:12 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/wta.csv HTTP/1.1" 200 15504
+2022-01-23 09:04:13 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/match-detail/?id=2024360> (referer: https://www.tennisexplorer.com/next/?type=atp-single&year=2022&month=01&day=24&timezone=+9)
+2022-01-23 09:04:13 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:04:15 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/fritz-f1aa7 HTTP/1.1" 301 215
+2022-01-23 09:04:15 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:04:15 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/fritz-f1aa7/ HTTP/1.1" 301 162
+2022-01-23 09:04:15 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/fritz-f1aa7/ HTTP/1.1" 200 20893
+2022-01-23 09:04:16 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:16 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/atp.csv HTTP/1.1" 200 18181
+2022-01-23 09:04:16 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:16 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/wta.csv HTTP/1.1" 200 15504
+2022-01-23 09:04:16 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:04:17 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/tsitsipas-b526f HTTP/1.1" 301 218
+2022-01-23 09:04:17 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:04:18 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/tsitsipas-b526f/ HTTP/1.1" 301 162
+2022-01-23 09:04:18 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/tsitsipas-b526f/ HTTP/1.1" 200 21340
+2022-01-23 09:04:18 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:19 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/atp.csv HTTP/1.1" 200 18181
+2022-01-23 09:04:19 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:20 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/wta.csv HTTP/1.1" 200 15504
+2022-01-23 09:04:20 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/match-detail/?id=2024380> (referer: https://www.tennisexplorer.com/next/?type=atp-single&year=2022&month=01&day=24&timezone=+9)
+2022-01-23 09:04:20 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:04:21 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/de-minaur HTTP/1.1" 301 211
+2022-01-23 09:04:21 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:04:21 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/de-minaur/ HTTP/1.1" 301 162
+2022-01-23 09:04:22 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/de-minaur/ HTTP/1.1" 200 20460
+2022-01-23 09:04:22 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:22 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/atp.csv HTTP/1.1" 200 18181
+2022-01-23 09:04:22 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:22 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/wta.csv HTTP/1.1" 200 15504
+2022-01-23 09:04:22 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:04:23 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/sinner-8b8e8 HTTP/1.1" 301 214
+2022-01-23 09:04:23 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:04:23 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/sinner-8b8e8/ HTTP/1.1" 301 162
+2022-01-23 09:04:24 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/sinner-8b8e8/ HTTP/1.1" 200 20061
+2022-01-23 09:04:24 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:24 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/atp.csv HTTP/1.1" 200 18181
+2022-01-23 09:04:24 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:24 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/wta.csv HTTP/1.1" 200 15504
+2022-01-23 09:04:25 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/match-detail/?id=2024388> (referer: https://www.tennisexplorer.com/next/?type=atp-single&year=2022&month=01&day=24&timezone=+9)
+2022-01-23 09:04:25 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:04:27 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/cilic HTTP/1.1" 301 208
+2022-01-23 09:04:27 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:04:28 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/cilic/ HTTP/1.1" 301 162
+2022-01-23 09:04:28 [urllib3.connectionpool] DEBUG: Resetting dropped connection: www.tennisexplorer.com
+2022-01-23 09:04:29 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/cilic/ HTTP/1.1" 200 24153
+2022-01-23 09:04:29 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:29 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/atp.csv HTTP/1.1" 200 18181
+2022-01-23 09:04:29 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:29 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/wta.csv HTTP/1.1" 200 15504
+2022-01-23 09:04:29 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:04:30 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/auger-aliassime HTTP/1.1" 301 216
+2022-01-23 09:04:30 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:04:32 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/auger-aliassime/ HTTP/1.1" 301 162
+2022-01-23 09:04:32 [urllib3.connectionpool] DEBUG: Resetting dropped connection: www.tennisexplorer.com
+2022-01-23 09:04:33 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/auger-aliassime/ HTTP/1.1" 200 20699
+2022-01-23 09:04:33 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:33 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/atp.csv HTTP/1.1" 200 18181
+2022-01-23 09:04:33 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:33 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/wta.csv HTTP/1.1" 200 15504
+2022-01-23 09:04:33 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.tennisexplorer.com/match-detail/?id=2024196> (referer: https://www.tennisexplorer.com/matches/?type=wta-single&timezone=+9)
+2022-01-23 09:04:33 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:04:36 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/barty HTTP/1.1" 301 205
+2022-01-23 09:04:36 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:04:36 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/barty/ HTTP/1.1" 301 162
+2022-01-23 09:04:36 [urllib3.connectionpool] DEBUG: Resetting dropped connection: www.tennisexplorer.com
+2022-01-23 09:04:37 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/barty/ HTTP/1.1" 200 23059
+2022-01-23 09:04:37 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:38 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/atp.csv HTTP/1.1" 200 18181
+2022-01-23 09:04:38 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:38 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/wta.csv HTTP/1.1" 200 15504
+2022-01-23 09:04:38 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): www.tennisexplorer.com:443
+2022-01-23 09:04:40 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/anisimova-3be62 HTTP/1.1" 301 216
+2022-01-23 09:04:40 [urllib3.connectionpool] DEBUG: Starting new HTTP connection (1): www.tennisexplorer.com:80
+2022-01-23 09:04:40 [urllib3.connectionpool] DEBUG: http://www.tennisexplorer.com:80 "GET /player/anisimova-3be62/ HTTP/1.1" 301 162
+2022-01-23 09:04:41 [urllib3.connectionpool] DEBUG: https://www.tennisexplorer.com:443 "GET /player/anisimova-3be62/ HTTP/1.1" 200 19641
+2022-01-23 09:04:41 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:41 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/atp.csv HTTP/1.1" 200 18181
+2022-01-23 09:04:41 [urllib3.connectionpool] DEBUG: Starting new HTTPS connection (1): raw.githubusercontent.com:443
+2022-01-23 09:04:41 [urllib3.connectionpool] DEBUG: https://raw.githubusercontent.com:443 "GET /ebijun1007/tennis_elo_scraper/main/latest/wta.csv HTTP/1.1" 200 15504
+2022-01-23 09:04:41 [scrapy.core.engine] INFO: Closing spider (finished)
+2022-01-23 09:04:41 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'count_load_parse_detail': 11,
+ 'count_write_parse_detail': 5,
+ 'downloader/request_bytes': 9777,
+ 'downloader/request_count': 17,
+ 'downloader/request_method_count/GET': 17,
+ 'downloader/response_bytes': 590559,
+ 'downloader/response_count': 17,
+ 'downloader/response_status_count/200': 17,
+ 'elapsed_time_seconds': 95.851428,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2022, 1, 23, 9, 4, 41, 695494),
+ 'httpcompression/response_bytes': 6014327,
+ 'httpcompression/response_count': 17,
+ 'log_count/DEBUG': 154,
+ 'log_count/ERROR': 6,
+ 'log_count/INFO': 11,
+ 'match_list': ['Australian Open'],
+ 'memusage/max': 238366720,
+ 'memusage/startup': 191275008,
+ 'request_depth_max': 2,
+ 'response_received_count': 17,
+ 'robotstxt/request_count': 1,
+ 'robotstxt/response_count': 1,
+ 'robotstxt/response_status_count/200': 1,
+ 'scheduler/dequeued': 16,
+ 'scheduler/dequeued/memory': 16,
+ 'scheduler/enqueued': 16,
+ 'scheduler/enqueued/memory': 16,
+ 'spider_exceptions/ConnectionError': 6,
+ 'start_time': datetime.datetime(2022, 1, 23, 9, 3, 5, 844066)}
+2022-01-23 09:04:41 [scrapy.core.engine] INFO: Spider closed (finished)
