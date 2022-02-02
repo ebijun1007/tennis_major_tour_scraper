@@ -292,7 +292,20 @@ class MatchesExplorer(scrapy.Spider):
         except:
             return 0
 
-    def predict(self, match_type, data):
+    def predict(self, _, row):
+        if (abs(float(row["player1_odds"]) - float(row["player2_odds"])) > 4) and (float(row["player1_roi"]) - float(row["player2_roi"]) < 10):
+            if float(row["player1_odds"]) < float(row["player2_odds"]):
+                predict = 1
+            else:
+                predict = 2
+        else:
+            if float(row["player1_roi"]) > float(row["player2_roi"]):
+                predict = 1
+            else:
+                predict = 2
+        return predict
+
+    def predict_v1(self, match_type, data):
         if float(data["player1_roi"]) >= 10 and float(data["player2_roi"]) >= 10:
             if float(data["player1_roi"]) >= float(data["player2_roi"]):
                 return 1.4
