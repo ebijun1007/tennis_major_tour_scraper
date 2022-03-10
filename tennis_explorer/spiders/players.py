@@ -41,7 +41,7 @@ class PlayersExplorer(scrapy.Spider):
         name = response.css('h3::text').get()
         rank = response.css('h3::text').get()
         roi = self.calc_roi(
-            soup.find('div', {'id': f'matches-2021-1-data'}))
+            soup.find('div', {'id': f'matches-2022-1-data'}))
         rank = response.css(
             '#center > div.box.boxBasic.lGray > table > tbody > tr > td:nth-child(2) > div:nth-child(5)::text').get()
         base = {
