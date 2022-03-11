@@ -42,7 +42,7 @@ func calc_roi(url string) {
 
 	balance := 1.0
 
-	doc.Find("#matches-2021-1-data tbody tr").EachWithBreak(func(i int, s *goquery.Selection) bool {
+	doc.Find("#matches-2022-1-data tbody tr").EachWithBreak(func(i int, s *goquery.Selection) bool {
 		if strings.Contains(s.Find("span").First().Text(), "Futures") {
 			return false
 		}

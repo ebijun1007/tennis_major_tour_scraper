@@ -32,11 +32,6 @@ class MatchesExplorer(scrapy.Spider):
 
     # options: multiple_regression_model, lightbgm_model
     NEXT_24_HOURS_MATCHES = "./data/next_48_hours_match.csv"
-    # prediction_model = sm.load("learned_model.pkl")  # load from local
-    atp_prediction_model = lgb.Booster(
-        model_file="atp_lightbgm_model.pkl")  # load from local
-    wta_prediction_model = lgb.Booster(
-        model_file="wta_lightbgm_model.pkl")  # load from local
 
     def start_requests(self):
         os.remove(self.NEXT_24_HOURS_MATCHES) if os.path.exists(
