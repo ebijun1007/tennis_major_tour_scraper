@@ -1,16 +1,8 @@
-from explanatory_variables import EXPLANATORY_VARIABLES
 import pandas as pd
 import os
-import statsmodels.api as sm
-from sklearn.model_selection import train_test_split
 import numpy as np
 from datetime import datetime, timedelta, timezone
-import lightgbm as lgb  # LightGBM
 import matplotlib.pyplot as plt
-import sklearn.metrics
-import optuna
-import matplotlib.pyplot as plt
-from contextlib import contextmanager
 
 
 def calc_history():
@@ -52,7 +44,7 @@ if __name__ == "__main__":
 
         print(f"tour_type: {tour_type}")
         print(f"roi: {roi}")
-        print(f"roi per tour: {df.groupby('tour')['prediction_roi'].sum()}")
+        print(f"roi per title: {df.groupby('title')['prediction_roi'].sum()}")
 
         # 年間ROIが高い選手に賭け続けた場合
         higher_roi_sum = 0
@@ -85,3 +77,4 @@ if __name__ == "__main__":
                 goor_roi_sum += float(row[f'player{good_roi_player}_odds'])
 
         print(f"good_roi(over 10) summary is: {round(goor_roi_sum, 2)}")
+        print("########################################################")
