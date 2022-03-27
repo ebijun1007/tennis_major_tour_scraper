@@ -35,12 +35,14 @@ def calc_history():
 if __name__ == "__main__":
     calc_history()
     for tour_type in ["atp", "wta", "merged"]:
+        count = 0
         df = pd.read_csv(f"{tour_type}.csv")
         roi = df["prediction_roi"].sum()
 
         good = 0
         bad = 0
         balance = 0
+        the_bookmamkers_roi = 0  # result set of odds >= 1.7
 
         print(f"tour_type: {tour_type}")
         print(f"roi: {roi}")
@@ -51,30 +53,25 @@ if __name__ == "__main__":
         lower_roi_sum = 0
         for index, row in df.iterrows():
             roi_higher = 1 if row['player1_roi'] > row['player2_roi'] else 2
-            winner = row['winner']
-            higher_roi_sum -= 1
-            lower_roi_sum -= 1
-            if np.isnan(row[f'player{winner}_odds']):
-                continue
-            if winner == roi_higher:
-                higher_roi_sum += float(row[f'player{winner}_odds'])
-            else:
-                lower_roi_sum += float(row[f'player{winner}_odds'])
+            prediction = int(row["predict"])
+            predicted_reteurn_odds = float(
+                row[f'player{prediction}_odds']) if prediction != 0 else 0
+            if(row["prediction_roi"] <= 0.1 or row["prediction_roi"] == -1):
+                count += 1
+                winner = row['winner']
+                higher_roi_sum -= 1
+                lower_roi_sum -= 1
+                if np.isnan(row[f'player{winner}_odds']):
+                    continue
+                if winner == roi_higher:
+                    higher_roi_sum += float(row[f'player{winner}_odds'])
+                else:
+                    lower_roi_sum += float(row[f'player{winner}_odds'])
+            if(predicted_reteurn_odds >= 1.7):
+                the_bookmamkers_roi += row["prediction_roi"]
 
         print(f"higher_roi summary is: {round(higher_roi_sum, 2)}")
         print(f"lower_roi summary is: {round(lower_roi_sum, 2)}")
-
-        # 年間ROIが5以上選手に賭け続けた場合。両者が超えている場合は高い方に賭ける
-        goor_roi_sum = 0
-        good_roi = 10
-        for index, row in df.query(f'player1_roi > {good_roi} or player2_roi >{good_roi}').iterrows():
-            winner = row['winner']
-            good_roi_player = 1 if row["player1_roi"] > good_roi else 2
-            goor_roi_sum -= 1
-            if np.isnan(row[f'player{winner}_odds']):
-                continue
-            if winner == good_roi_player:
-                goor_roi_sum += float(row[f'player{good_roi_player}_odds'])
-
-        print(f"good_roi(over 10) summary is: {round(goor_roi_sum, 2)}")
-        print("########################################################")
+        print(
+            f"the_bookmamkers_roi summary is: {round(the_bookmamkers_roi, 2)}")
+        print(f"count: {count}")
