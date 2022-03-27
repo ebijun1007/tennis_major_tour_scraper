@@ -7,11 +7,9 @@ from bs4 import BeautifulSoup
 import re
 import pandas as pd
 import io
-import statsmodels.api as sm
 import json
 import csv
 import os
-import lightgbm as lgb  # LightGBM
 
 
 class MatchesExplorer(scrapy.Spider):

@@ -1,0 +1,30 @@
+version: "3"
+services:
+  splash:
+    restart: always
+    image: scrapinghub/splash
+    container_name: splash
+    ports:
+      - "5023:5023"
+      - "8050:8050"
+      - "8051:8051"
+    environment:
+      VIRTUAL_HOST: splash.localhost
+  python:
+    build: .
+    container_name: scrapy
+    depends_on:
+      - splash
+    tty: true
+    volumes:
+      - ./:/app
+  pinnacle:
+    build:
+      context: .
+      dockerfile: Dockerfile.pinnacle
+    container_name: pinnacle
+    env_file:
+    - .env
+    tty: true
+    volumes:
+      - ./:/app
