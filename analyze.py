@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 def calc_history():
     plot_x = []
     plot_y = []
+    sum = 0.0
     for csv_data in sorted(os.listdir("data")):
         try:
             df = pd.read_csv(f'./data/{csv_data}')
@@ -19,8 +20,10 @@ def calc_history():
                 df["prediction_roi"].sum(), 2)
             print(
                 f'{csv_data}: win:{win} lose:{lose} win_rate: {round(win / (win + lose) ,2)} roi:{roi}')
+            print(roi)
+            sum += float(roi)
             plot_x.append(csv_data)
-            plot_y.append(roi)
+            plot_y.append(sum)
         except Exception as e:
             print(e)
             continue
@@ -28,7 +31,6 @@ def calc_history():
     fig = plt.figure()
     ax = fig.add_subplot(1, 1, 1)
     ax.plot(plot_x, plot_y)
-    print(sum(plot_y))
     plt.savefig("roi")
 
 
