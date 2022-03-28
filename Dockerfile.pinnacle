@@ -1,5 +1,5 @@
 FROM python:3.8-slim-buster
 WORKDIR /app
 RUN apt update && apt install git -y && apt install libgomp1 -y
-RUN pip3 install requests, slackweb, pandas
+RUN pip3 install requests slackweb pandas
 RUN pip3 install pinnacle

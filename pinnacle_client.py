@@ -12,6 +12,7 @@ class PinnacleClient():
     TENNIS_ID = 33
     PERIOD_NUMBER = 0
     MAX_BET_PRICE = 200
+    MINIMUM_ODDS = 1.7
     IGNORE_WORD = ["ITF", "Doubles"]
     TODAY = datetime.datetime.today()
     MATCH_FILE = "./data/next_48_hours_match.csv"
@@ -31,9 +32,13 @@ class PinnacleClient():
             print(tour, home, away, predict)
             league_id, event_id = self.search_event(home, away)
             line = self.get_line(league_id, event_id, f"Team{predict}")
+            if(line["price"] < self.MINIMUM_ODDS):
+                continue
             if not any([bet for bet in bet_list["straightBets"] if bet['eventId'] == event_id]):
-                self.SLACK.notify(self.place_bet(
-                    line, event_id, f"TEAM{predict}"))
+                bet = self.place_bet(
+                    line, event_id, f"TEAM{predict}")
+                print(bet)
+                self.SLACK.notify(text=str(bet))
 
     def load_matches(self):
         with open(self.MATCH_FILE) as f:
@@ -47,7 +52,7 @@ class PinnacleClient():
             if any(word in league["name"] for word in self.IGNORE_WORD):
                 continue
             for event in league["events"]:
-                if("Lauren Davis" == event["home"] or "Lauren Davis" == event["away"]):
+                if(home == event["home"] or away == event["away"]):
                     return league["id"], event["id"]
 
     def get_line(self, league_id, event_id, team):
@@ -69,3 +74,8 @@ class PinnacleClient():
             period_number=self.PERIOD_NUMBER,
             fill_type=pinnacle.enums.FillType.Normal.value
         )
+
+
+if __name__ == "__main__":
+    client = PinnacleClient()
+    client.execute()
