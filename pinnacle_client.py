@@ -58,6 +58,7 @@ class PinnacleClient():
             header = next(reader)
             self.matches = [dict(zip(header, row)) for row in reader]
         self.tennis_events = self.api.market_data.get_fixtures(self.TENNIS_ID)
+        print(self.tennis_events)
 
     def search_event(self, home, away):
         for league in self.tennis_events["league"]:
