@@ -25,4 +25,8 @@ jobs:
           pip3 install requests slackweb pandas
           pip3 install pinnacle
       - name: bet
+        env:
+          PINNACLE_USERNAME: ${{ secrets.PINNACLE_USERNAME }}
+          PINNACLE_PASSWORD: ${{ secrets.PINNACLE_PASSWORD }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: python pinnacle_client.py
