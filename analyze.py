@@ -20,7 +20,6 @@ def calc_history():
                 df["prediction_roi"].sum(), 2)
             print(
                 f'{csv_data}: win:{win} lose:{lose} win_rate: {round(win / (win + lose) ,2)} roi:{roi}')
-            print(roi)
             sum += float(roi)
             plot_x.append(csv_data)
             plot_y.append(sum)
