@@ -3,6 +3,7 @@ import os
 import datetime
 import pinnacle
 import slackweb
+import traceback
 
 
 class PinnacleClient():
@@ -15,15 +16,17 @@ class PinnacleClient():
     MINIMUM_ODDS = 1.7
     IGNORE_WORD = ["ITF", "Doubles"]
     TODAY = datetime.datetime.today()
+    YESTERDAY = TODAY - datetime.timedelta(1)
     MATCH_FILE = "./data/next_48_hours_match.csv"
     api = pinnacle.APIClient(USERNAME, PASSWORD)
     count = 0
     error_count = 0
 
     def execute(self):
-        self.load_matches()
-        bet_list = self.api.betting.get_bets(
-            from_date=self.TODAY, to_date=self.TODAY, betlist=pinnacle.enums.BetListType.Running.value)
+        self.tennis_events = self.load_matches()
+        bet_list = self.get_bets()
+        event_id_list = [bet["eventId"] for bet in bet_list["straightBets"]]
+
         for match in self.matches:
             try:
                 tour = match["tour"]
@@ -32,39 +35,46 @@ class PinnacleClient():
                 home = match["player1_name"]
                 away = match["player2_name"]
                 predict = int(match["predict"])
+                print(tour, home, away, predict)
                 league_id, event_id = self.search_event(home, away)
                 line = self.get_line(league_id, event_id, f"Team{predict}")
                 if(line["price"] < self.MINIMUM_ODDS):
                     continue
-                if not any([bet for bet in bet_list["straightBets"] if bet['eventId'] == event_id]):
+                if not (event_id in event_id_list):
                     bet = self.place_bet(
                         line, event_id, f"TEAM{predict}")
                     print(bet)
                     self.count += 1
                     self.SLACK.notify(text=str(bet))
             except Exception as e:
-                print(tour, home, away, predict)
-                print(league_id, event_id, f"Team{predict}")
-                print(line)
                 print(e)
                 self.error_count += 1
+                self.SLACK.notify(text=f"{home} vs {away}: {str(e)}")
+                self.SLACK.notify(text=str(traceback.format_exc()))
+
                 continue
         self.SLACK.notify(
             text=f"count: {self.count}, error: {self.error_count}")
+
+    def get_bets(self):
+        return self.api.betting.get_bets(
+            from_date=self.YESTERDAY, to_date=self.TODAY, betlist=pinnacle.enums.BetListType.Running.value)
 
     def load_matches(self):
         with open(self.MATCH_FILE) as f:
             reader = csv.reader(f, skipinitialspace=True)
             header = next(reader)
             self.matches = [dict(zip(header, row)) for row in reader]
-        self.tennis_events = self.api.market_data.get_fixtures(self.TENNIS_ID)
+        return self.api.market_data.get_fixtures(self.TENNIS_ID)
 
     def search_event(self, home, away):
         for league in self.tennis_events["league"]:
             if any(word in league["name"] for word in self.IGNORE_WORD):
                 continue
             for event in league["events"]:
-                if(home == event["home"] or away == event["away"]):
+                list1 = [home, away]
+                list2 = [event["home"], event["away"]]
+                if any(name in list1 for name in list2):
                     return league["id"], event["id"]
 
     def get_line(self, league_id, event_id, team):
