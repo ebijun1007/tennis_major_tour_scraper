@@ -1,6 +1,8 @@
 import csv
+import io
 import os
 import datetime
+import requests
 import pinnacle
 import slackweb
 import traceback
@@ -15,9 +17,10 @@ class PinnacleClient():
     MAX_BET_PRICE = 200
     MINIMUM_ODDS = 1.7
     IGNORE_WORD = ["ITF", "Doubles"]
-    TODAY = datetime.datetime.today()
+    TODAY = datetime.datetime.now()
+    TOMORROW = TODAY + datetime.timedelta(1)
     YESTERDAY = TODAY - datetime.timedelta(1)
-    MATCH_FILE = "./data/next_48_hours_match.csv"
+    MATCH_FILE = "https://raw.githubusercontent.com/ebijun1007/tennis_major_tour_scraper/main/data/next_48_hours_match.csv"
     api = pinnacle.APIClient(USERNAME, PASSWORD)
     count = 0
     error_count = 0
@@ -41,11 +44,13 @@ class PinnacleClient():
                 if(line["price"] < self.MINIMUM_ODDS):
                     continue
                 if not (event_id in event_id_list):
-                    bet = self.place_bet(
-                        line, event_id, f"TEAM{predict}")
-                    print(bet)
+                    print(event_id)
+                    print(event_id_list)
+                    # bet = self.place_bet(
+                    #     line, event_id, f"TEAM{predict}")
+                    # print(bet)
                     self.count += 1
-                    self.SLACK.notify(text=str(bet))
+                    # self.SLACK.notify(text=str(bet))
             except Exception as e:
                 print(e)
                 self.error_count += 1
@@ -53,18 +58,19 @@ class PinnacleClient():
                 self.SLACK.notify(text=str(traceback.format_exc()))
 
                 continue
-        self.SLACK.notify(
-            text=f"count: {self.count}, error: {self.error_count}")
+        # self.SLACK.notify(
+        #     text=f"count: {self.count}, error: {self.error_count}")
 
     def get_bets(self):
         return self.api.betting.get_bets(
-            from_date=self.YESTERDAY, to_date=self.TODAY, betlist=pinnacle.enums.BetListType.Running.value)
+            from_date=self.YESTERDAY, to_date=self.TODAY, betlist="ALL")
 
     def load_matches(self):
-        with open(self.MATCH_FILE) as f:
-            reader = csv.reader(f, skipinitialspace=True)
-            header = next(reader)
-            self.matches = [dict(zip(header, row)) for row in reader]
+        raw_csv = requests.get(self.MATCH_FILE).content
+        reader = csv.reader(io.StringIO(
+            raw_csv.decode('utf-8')), skipinitialspace=True)
+        header = next(reader)
+        self.matches = [dict(zip(header, row)) for row in reader]
         return self.api.market_data.get_fixtures(self.TENNIS_ID)
 
     def search_event(self, home, away):
