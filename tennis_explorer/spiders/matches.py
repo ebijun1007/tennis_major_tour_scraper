@@ -193,7 +193,7 @@ class MatchesExplorer(scrapy.Spider):
             return "-"
 
     def get_odds(self, table):
-        odds = ["-", "-"]
+        odds = table.css('tr.average').css('div.odds-in::text').getall()
         for tr in table.css('tr'):
             if 'Pinnacle' in tr.css('td ::text').getall():
                 odds = tr.css('div.odds-in::text').getall()
