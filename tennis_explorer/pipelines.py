@@ -5,9 +5,13 @@
 
 
 # useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
+from tennis_explorer.sort_csv import sort_csv
 
 
 class TennisExplorerPipeline:
     def process_item(self, item, spider):
         return item
+
+    def close_spider(self, spider):
+        print(spider.NEXT_24_HOURS_MATCHES)
+        sort_csv(spider.NEXT_24_HOURS_MATCHES, 1, False)
