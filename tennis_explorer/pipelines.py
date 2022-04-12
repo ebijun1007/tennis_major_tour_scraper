@@ -13,5 +13,8 @@ class TennisExplorerPipeline:
         return item
 
     def close_spider(self, spider):
-        print(spider.NEXT_24_HOURS_MATCHES)
-        sort_csv(spider.NEXT_24_HOURS_MATCHES, 1, False)
+        try:
+            print(spider.NEXT_24_HOURS_MATCHES)
+            sort_csv(spider.NEXT_24_HOURS_MATCHES, 1, False)
+        except Exception as e:
+            pass
