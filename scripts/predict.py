@@ -15,6 +15,8 @@ def main():
     count_career = 0
 
     for i, item in enumerate(items):
+        if i > 1000:
+            break
         try:
             surface = item["surfaceTimestamp"].split("#")[0]
             timestamp = item["surfaceTimestamp"].split("#")[1]
@@ -29,6 +31,8 @@ def main():
                                           roi_home, roi_enemy)
                 count_career += 1
 
+            print(balance_roi_career)
+
         except Exception as e:
             print(e)
             continue
@@ -36,6 +40,15 @@ def main():
 
 def predict_home_win(roi_home, roi_enemy):
     return roi_home - roi_enemy > 1
+
+
+def h2h(home, away, to_date=None):
+    items = query_h2h(home, away, to_date=to_date)
+    return len([item for item in items if item["roi"] > 0])
+
+
+def calc_roi(items):
+    return sum(item["roi"] for item in items)
 
 
 def bet(item, roi_home, roi_enemy):
@@ -47,11 +60,6 @@ def bet(item, roi_home, roi_enemy):
     return result
 
 
-def h2h(home, away, to_date=None):
-    items = query_h2h(home, away, to_date=to_date)
-    return len([item for item in items if item["roi"] > 0])
-
-
 def scan_all_items():
     response = dynamo_table.scan()
     data = response['Items']
@@ -60,14 +68,6 @@ def scan_all_items():
             ExclusiveStartKey=response['LastEvaluatedKey'])
         data.extend(response['Items'])
     return data
-
-
-def calc_roi(items):
-    roi_career = 0
-    for i, item in enumerate(items):
-        roi_career += item["roi"]
-
-    return roi_career
 
 
 if __name__ == "__main__":

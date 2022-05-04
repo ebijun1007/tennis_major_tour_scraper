@@ -6,6 +6,7 @@ services:
     tty: true
     depends_on:
       - dynamodb
+      - splash
     environment:
       - SPLASH_URL=http://splash:8050
       - GET_ONLY_LATEST=
@@ -14,6 +15,8 @@ services:
       - AWS_ACCESS_KEY_ID=xxxxx
     volumes:
       - ./:/app
+    env_file:
+      - .env
   pinnacle:
     build:
       context: .

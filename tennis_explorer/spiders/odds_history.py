@@ -40,13 +40,13 @@ class OddsHistoryExplorer(scrapy.Spider):
             'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
         },
         "ITEM_PIPELINES": {
-            'tennis_explorer.pipelines.OddsPortalPipeline': 300,
+            'tennis_explorer.pipelines.OddsHistoryPipeline': 300,
         },
-        "HTTPCACHE_ENABLED": True,
-        "HTTPCACHE_EXPIRATION_SECS": 60 * 60 * 3,
-        "HTTPCACHE_DIR": 'httpcache',
-        "HTTPCACHE_IGNORE_HTTP_CODES": [],
-        "HTTPCACHE_STORAGE": 'scrapy.extensions.httpcache.FilesystemCacheStorage',
+        # "HTTPCACHE_ENABLED": True,
+        # "HTTPCACHE_EXPIRATION_SECS": 60 * 60 * 3,
+        # "HTTPCACHE_DIR": 'httpcache',
+        # "HTTPCACHE_IGNORE_HTTP_CODES": [],
+        # "HTTPCACHE_STORAGE": 'scrapy.extensions.httpcache.FilesystemCacheStorage',
     }
     YEAR_PARSE_TARGET = os.environ.get("YEAR_PARSE_TARGET")
     GET_ONLY_LATEST = os.environ.get("GET_ONLY_LATEST")
@@ -175,4 +175,4 @@ class OddsHistoryExplorer(scrapy.Spider):
             return "grass"
 
     def name_format(self, name):
-        return name.replace("\xa0", "").rstrip(".").replace(" ", ".")
+        return name.replace("\xa0", "")
