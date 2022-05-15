@@ -47,9 +47,4 @@ jobs:
           repository: ebijun1007/blog_luden
           token: ${{ secrets.PERSONAL_TOKEN }}
           event-type: build
-      - name: dispatch bet
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          repository: ebijun1007/pinnacle-tennis-auto-betting-lambda
-          token: ${{ secrets.PERSONAL_TOKEN }}
-          event-type: bet
+
